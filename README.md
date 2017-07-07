@@ -2,9 +2,9 @@
 
 基于 vue.js 的前端开发环境，用于前后端分离后的单页应用开发，可以在开发时使用 ES2015、scss 等最新语言特性。项目包含：
 
-- 基础库: `vue.js`、`vue-router`、`vuex`、`whatwg-fetch`
-- 编译/打包工具：`webpack`、`babel`、`node-sass`
-- 单元测试工具：`karma`、`mocha`、`sinon-chai`
+- 基础库: `vue.js`、`vue-router`、`vuex`、`whatwg-fetch`、'vux'、'vux-loader'
+- 编译/打包工具：`webpack`、`babel`、`node-sass`、'less-loader'
+、'less-loader'- 单元测试工具：`karma`、`mocha`、`sinon-chai`
 - 本地服务器：`express`
 
 ## 目录结构
