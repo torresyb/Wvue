@@ -6,27 +6,27 @@ Vue.use(Router)
 // 页面路径(相对 ./views)
 let config = [
     // 个人相关
-    '/home/index',                  // 首页(‘我的’页面)
+    '/home/index', // 首页(‘我的’页面)
 
-    '/user/line',                   // 线路管理
-    '/user/create',                 // 旅游内容(修改路线)
-    '/user/support',                // 帮助支持
-    '/user/money',                  // 我的钱包
-    '/user/detail',                 // 收支明细
-    '/user/getCash',                // 提现
+    '/user/line', // 线路管理
+    '/user/create', // 旅游内容(修改路线)
+    '/user/support', // 帮助支持
+    '/user/money', // 我的钱包
+    '/user/detail', // 收支明细
+    '/user/getCash', // 提现
 
     // 完善信息
-    '/info/index',                  // 完善导游信息-首页
-    '/info/rules',                  // 完善导游信息-细则
-    '/info/identify',               // 完善导游信息-审核页
+    '/info/index', // 完善导游信息-首页
+    '/info/rules', // 完善导游信息-细则
+    '/info/identify', // 完善导游信息-审核页
 
     // 订单相关
-    '/order/index',                 // 订单列表(已确认、未确认)
-    '/order/detail',                // 订单详情
-    '/order/confirm',               // 确认订单  
+    '/order/index', // 订单列表(已确认、未确认)
+    '/order/detail', // 订单详情
+    '/order/confirm', // 确认订单  
 
     // 未授权
-    '/auth'                         // 未授权页
+    '/auth' // 未授权页
 ]
 
 // 定义路由
@@ -37,7 +37,7 @@ config.forEach((value, index, arr) => {
     routes.push({
         path: value.replace(/(\/index|home\/index)$/g, ''),
         component: resolve => require(
-            [ '../views' + value.replace(/\/(\:|\?)[A-z]+$/g, '') + '.vue' ],
+            ['../views' + value.replace(/\/(\:|\?)[A-z]+$/g, '') + '.vue'],
             resolve
         )
     })
@@ -50,7 +50,7 @@ routes.push({
 })
 
 export default new Router({
-	mode: 'hash',
-  	linkActiveClass: 'active',
-  	routes: routes
+    mode: 'hash',
+    linkActiveClass: 'active',
+    routes: routes
 })

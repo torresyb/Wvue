@@ -2,7 +2,7 @@
 <template>
 	<div id="app">
 		<!-- loading -->
-    	<nprogress-container></nprogress-container>
+    	<!-- <nprogress-container></nprogress-container> -->
 		<!-- 路由 页面切换 -->
     	<transition name="fade" mode="out-in">
     		<router-view id="content" :key="$route.fullPath"></router-view>
@@ -12,31 +12,32 @@
 
 <script>
 import './assets/css/common.css'
-import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
+// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-	components: {
-		NprogressContainer
-	},
+	// components: {
+	// 	NprogressContainer
+	// },
 	computed: mapGetters({
 	    userInfo: 'userInfo'
 	}),
 	beforeMount () {
-		// this.loginHandle()
+		this.loginHandle()
 	},
 	methods: {
 		...mapActions([
 			'setUser'
 		]),
 		loginHandle () {
+			// 实名认证
 			this.$http.post('/user/login').then((rst) => {
 				if(rst.body.state == 1){
 					this.setUser({isLogin:true,adminInfo:rst.data.data[0]})
+					this.$router.push('/order')
 				}else{
 					this.setUser({isLogin:false, adminInfo:null})
 					this.$router.push('/')
-					//return next({ path: '/' })
 				}
 		    },(err) => {
 		      	this.setUser({isLogin:false, adminInfo:null})
@@ -51,5 +52,7 @@ export default {
 </script>
 
 <style>
-
+html {
+	color: #333!important;
+}
 </style>

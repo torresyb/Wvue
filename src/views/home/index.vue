@@ -1,7 +1,7 @@
 <template>
-    <div id="home" class="home">
+    <div class="home">
         <div class="banner">
-            <img src="" alt="">
+            <img src="../../assets/images/auth.png" alt="">
             <p>艾子豪</p>
         </div>
         <group>
@@ -18,7 +18,7 @@
 <script>
 import WxFooter from '../../components/WxFooter'
 // import {Cell,Group} from 'vux'
-import { Cell, CellBox, CellFormPreview, Group, Badge } from 'vux'
+import { Cell, Group } from 'vux'
 export default {
     name: 'home',
 
@@ -31,10 +31,7 @@ export default {
     components: {
         WxFooter,
         Group,
-        Cell,
-        CellFormPreview,
-        CellBox,
-        Badge
+        Cell
     },
 
     
@@ -61,11 +58,10 @@ export default {
         width: 72px
         height: 72px
         border-radius: 50%
-        background: red
         display: inline
         margin: 17px 0 12px
 </style>
 <style lang="sass">
-#home .weui-cells
+.home .weui-cells
     margin-top: 0
 </style>

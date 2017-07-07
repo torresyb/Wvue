@@ -16,15 +16,6 @@
 	margin: 0px;
 	padding: 0px;
 }
-html {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-  line-height: 1.15; /* 2 */
-  font-size: 14px;
-  -ms-text-size-adjust: 100%; /* 3 */
-  -webkit-text-size-adjust: 100%; /* 3 */
-  color: #73839b;
-  overflow: scroll\0;
-}
 
 /* Sections
    ========================================================================== */
@@ -34,10 +25,9 @@ html {
  */
 
 body {
-  margin: 0;
-  background-color: #f3f5f6;
+    line-height: 1.6;
+    font-family: -apple-system-font,Helvetica Neue,sans-serif;
 }
-
 /**
  * Add the correct display in IE 9-.
  */
