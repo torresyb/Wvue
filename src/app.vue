@@ -14,6 +14,7 @@
 import './assets/css/common.css'
 import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import { mapGetters, mapActions } from 'vuex'
+import { Flexbox, FlexboxItem, Divider } from 'vux'
 
 export default {
 	components: {
@@ -23,21 +24,20 @@ export default {
 	    userInfo: 'userInfo'
 	}),
 	beforeMount () {
-		this.loginHandle()
+		// this.loginHandle()
 	},
 	methods: {
 		...mapActions([
 			'setUser'
 		]),
 		loginHandle () {
-			console.log(2323)
 			this.$http.post('/user/login').then((rst) => {
 				if(rst.body.state == 1){
 					this.setUser({isLogin:true,adminInfo:rst.data.data[0]})
 				}else{
 					this.setUser({isLogin:false, adminInfo:null})
-					this.$router.push('/myspace')
-					//return next({ path: '/myspace' })
+					this.$router.push('/')
+					//return next({ path: '/' })
 				}
 		    },(err) => {
 		      	this.setUser({isLogin:false, adminInfo:null})

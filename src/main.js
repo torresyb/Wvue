@@ -1,5 +1,6 @@
 import 'babel-polyfill'
-import Vue from 'vue';
+import Vue from 'vue'
+import Config from './config'
 import VueResource from 'vue-resource'
 import NProgress from 'vue-nprogress'
 import * as Storage from './plugin/storage'
@@ -77,10 +78,13 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-window.__lendApp__ = new Vue({
+window.vm = new Vue({
   	el: '#app',
   	router,
   	nprogress,
   	store,
-  	render: h => h(App)
+  	render: h => h(App),
+    data: {
+        config: Config, // 全局注入配置
+    }
 });

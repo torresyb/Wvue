@@ -3,35 +3,54 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// 首页 订单管理
-const Index = r => require(['views/index'], r)
-// 线路管理
-const Line = r => require(['views/line'], r)
-// 个人中心
-const Myspace = r => require(['views/myspace'], r)
+// 页面路径(相对 ./pages)
+let config = [
+    // 个人相关
+    '/home/index',                  // 首页(‘我的’页面)
 
+    '/user/line',                   // 线路管理
+    '/user/create',                 // 旅游内容(修改路线)
+    '/user/support',                // 帮助支持
+    '/user/money',                  // 我的钱包
+    '/user/detail',                 // 收支明细
+    '/user/getCash',                // 提现
 
-// 根目录
-const rootPath = ''
+    // 完善信息
+    '/info/index',                  // 完善导游信息-首页
+    '/info/rules',                  // 完善导游信息-细则
+    '/info/identify',               // 完善导游信息-审核页
 
-// 页面路由
-const routes = [
-	{path: '', redirect: {name: 'index'}},
-	{path: '/index', component: Index, name: 'index'},
-	{path: '/line', component: Line, name: 'line'},
-	{path: '/myspace', component: Myspace, name: 'myspace'}
+    // 订单相关
+    '/order/index',                 // 订单列表(已确认、未确认)
+    '/order/detail',                // 订单详情
+    '/order/confirm',               // 确认订单  
+
+    // 未授权
+    '/auth'                         // 未授权页
 ]
-// .map(route => {
-//   // route.path = rootPath + route.path
-//   return route
-// })
 
-// 404 页
-//routes.push({path: '*', component: NotFound, name: 'notfound'})
+// 定义路由
+const routes = []
+
+// 解析路由配置，添加进routes
+config.forEach((value, index, arr) => {
+    routes.push({
+        path: value.replace(/(\/index|home\/index)$/g, ''),
+        component: resolve => require(
+            [ '../views' + value.replace(/\/(\:|\?)[A-z]+$/g, '') + '.vue' ],
+            resolve
+        )
+    })
+})
+
+// 404 页面
+routes.push({
+    path: '*',
+    component: resolve => require(['../views/404.vue'], resolve)
+})
 
 export default new Router({
-	mode: 'hash',
+	mode: 'history',
   	linkActiveClass: 'active',
   	routes: routes
 })
-
