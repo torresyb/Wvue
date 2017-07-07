@@ -7,13 +7,12 @@ import * as filters from './filters'
 import Moment from 'moment'
 import {sync} from 'vuex-router-sync'
 // 微信sdk
-import { WechatPlugin } from 'vux'
+import { ToastPlugin,WechatPlugin } from 'vux'
 
 import App from './app'
 import router from './router'
 import store from './store'
 
-import {SET_USER} from './store/mutation-types'
 // 点击延迟
 import FastClick from 'fastclick'
 FastClick.attach(document.body)
@@ -40,6 +39,7 @@ const nprogress = new NProgress({ parent: '.nprogress-container' })
 Vue.use(VueResource)
 Vue.use(NProgress)
 Vue.use(WechatPlugin)
+Vue.use(ToastPlugin)
 
 const wx = Vue.wechat
 
@@ -50,38 +50,6 @@ const { state } = store
 Vue.http.options.emulateJSON = true
 Vue.http.options.credentials = true
 Vue.http.options.cache = true
-
-
-/**** 路由跳转前置判断 *****/
-
-// 获取用户信息 刷新页面
-router.beforeEach((route, redirect, next) => {
-	if (storage.get('isLogin') === 'true') {
-	    if(!store.getters.userInfo.isLogin){
-	    	Vue.http.get('/user/getUserInfo').then((rst) => {
-		    	store.commit(SET_USER,{isLogin:true,adminInfo:rst.data.data[0]})
-		    	next()
-		    },(err) => {
-		      	console.log(err);
-		    })
-		}else{
-			next()
-	    }
-	}else{
-		store.commit(SET_USER,{isLogin:false, adminInfo:null})
-		next()
-	}
-})
-
-// 判断是否登录
-router.beforeEach((to, from, next) => {
-  	if (!state.app.userInfo.isLogin && to.path!="/login") {
-    	return next({ path: '/login' })
-  	}else if(state.app.userInfo.isLogin && to.path ==="/login"){
-    	return next({ path: from.path })
-  	}
- 	next()
-})
 
 // 微信分享
 if (process.env.NODE_ENV === 'production') {

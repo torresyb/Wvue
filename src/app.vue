@@ -13,11 +13,40 @@
 <script>
 import './assets/css/common.css'
 import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
-// import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
 	components: {
 		NprogressContainer
+	},
+	computed: mapGetters({
+	    userInfo: 'userInfo'
+	}),
+	beforeMount () {
+		this.loginHandle()
+	},
+	methods: {
+		...mapActions([
+			'setUser'
+		]),
+		loginHandle () {
+			console.log(2323)
+			this.$http.post('/user/login').then((rst) => {
+				if(rst.body.state == 1){
+					this.setUser({isLogin:true,adminInfo:rst.data.data[0]})
+				}else{
+					this.setUser({isLogin:false, adminInfo:null})
+					this.$router.push('/myspace')
+					//return next({ path: '/myspace' })
+				}
+		    },(err) => {
+		      	this.setUser({isLogin:false, adminInfo:null})
+		      	this.$vux.toast.show({
+		      		type: 'warn',
+		      		text: '服务端错误'
+		      	})
+		    })
+		}
 	}
 }
 </script>
