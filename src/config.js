@@ -29,5 +29,11 @@ export default {
     go (url){
         // window.location = url
         vm.$router.push(url)
+    },
+
+    getCookie (name) {
+        let reg = new RegExp(`(^| )${name}=([^;]*)(;|$)`)
+        let arr = document.cookie.match(reg)
+        return arr ? unescape(arr[2]) : null
     }
 }

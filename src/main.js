@@ -8,7 +8,7 @@ import * as filters from './filters'
 import Moment from 'moment'
 import {sync} from 'vuex-router-sync'
 // 微信sdk
-import { ToastPlugin,WechatPlugin } from 'vux'
+import { ToastPlugin, WechatPlugin,loadingPlugin,alertPlugin} from 'vux'
 
 import App from './app'
 import router from './router'
@@ -41,6 +41,8 @@ Vue.use(VueResource)
 Vue.use(NProgress)
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
+Vue.use(loadingPlugin)
+Vue.use(alertPlugin)
 
 const wx = Vue.wechat
 
@@ -86,5 +88,6 @@ window.vm = new Vue({
   	render: h => h(App),
     data: {
         config: Config, // 全局注入配置
+        fetch: Fetch,   // fetch
     }
 });

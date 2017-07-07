@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-// 页面路径(相对 ./pages)
+// 页面路径(相对 ./views)
 let config = [
     // 个人相关
     '/home/index',                  // 首页(‘我的’页面)
@@ -50,7 +50,7 @@ routes.push({
 })
 
 export default new Router({
-	mode: 'history',
+	mode: 'hash',
   	linkActiveClass: 'active',
   	routes: routes
 })

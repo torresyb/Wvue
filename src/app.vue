@@ -14,7 +14,6 @@
 import './assets/css/common.css'
 import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import { mapGetters, mapActions } from 'vuex'
-import { Flexbox, FlexboxItem, Divider } from 'vux'
 
 export default {
 	components: {
