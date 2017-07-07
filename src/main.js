@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import Vue from 'vue'
 import Config from './config'
+import Fetch from './components/Fetch'
 import VueResource from 'vue-resource'
 import NProgress from 'vue-nprogress'
 import * as Storage from './plugin/storage'
