@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
                                     <x-button plain type="primary" mini>下线发布</x-button>
-                                    <x-button mini type="primary" style="margin-left:10px" @click="edit()" action-type="button">修改线路</x-button>
+                                    <x-button mini type="primary" style="margin-left:5px" @click="edit()" action-type="button">修改线路</x-button>
                                 </div>
                             </a>
                         </div>
@@ -124,6 +124,8 @@ export default {
     }
 }
 </script>
-
-<style>
+<style scoped>
+    .weui-media-box__bd button.weui-btn_mini{
+        padding: 0 15px;
+    }
 </style>
