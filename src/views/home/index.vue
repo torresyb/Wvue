@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="banner" @click="goInfo">
-            <img src="../../assets/images/auth.png" alt="">
+            <div><img src="../../assets/images/auth.png" alt=""></div>
             <p>艾子豪</p>
         </div>
         <group>
@@ -60,9 +60,11 @@ export default {
         height: 72px
         border-radius: 50%
         display: inline
-        margin: 17px 0 12px
+        margin: 17px 0 0
 </style>
 <style lang="sass">
 .home .weui-cells
     margin-top: 0
+.home .weui-cell:before 
+    left: -15px
 </style>

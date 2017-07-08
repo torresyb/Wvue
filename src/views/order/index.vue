@@ -15,9 +15,11 @@
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in orderList' :key="index">
                         <div class="tab-swiper vux-center">
-                            <p class="wx-title">{{item.des}}</p>
-                            <p class="wx-right wx-green">{{item.status}}</p>
-                            <a :href="item.url" class="weui-media-box weui-media-box_appmsg">
+                            <a :href="item.status === '待确认' ? item.url: 'javascript:;'">
+                                <p class="wx-title">{{item.des}}</p>
+                                <p class="wx-right wx-green">{{item.status}}</p>
+                            </a>
+                            <a :href="item.status === '待确认' ? item.url: 'javascript:;'" class="weui-media-box weui-media-box_appmsg">
                                 <div class="weui-media-box__hd">
                                     <img :src="item.src" alt="">
                                 </div>
@@ -56,7 +58,7 @@ export default {
                 num: '4',
                 status: '待确认',
                 money: '400',
-                url: '/'
+                url: '#/order/confirm'
             },{
                 src: 'http://placeholder.qiniudn.com/120x60/3cc51f/ffffff',
                 time: '2017年6月6日',
@@ -72,7 +74,7 @@ export default {
                 num: '4',
                 status: '待确认',
                 money: '400',
-                url: '/'
+                url: '#/order/confirm'
             },{
                 src: 'http://placeholder.qiniudn.com/120x60/3cc51f/ffffff',
                 time: '2017年6月6日',

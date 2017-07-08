@@ -121,4 +121,10 @@ html {
 #app button.weui-btn_plain-primary,#app input.weui-btn_plain-primary,#app button.weui-btn_plain-default,#app input.weui-btn_plain-default{
 	background-color: transparent;
 }
+#app .vux-tab .vux-tab-item.vux-tab-selected,#app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,#app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i,#app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
+	color: #00ca9d!important;
+}
+#app .vux-tab-ink-bar{
+	background-color: #00ca9d!important;
+}
 </style>

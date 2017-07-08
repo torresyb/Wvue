@@ -51,7 +51,7 @@ export default {
             display: flex
             justify-content: space-between
             color: #333
-            font-size: 13px
+            font-size: 14px
         i 
             font-style: normal
             color: #979797

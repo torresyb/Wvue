@@ -117,11 +117,11 @@ export default {
             height: 18px
             background: #03ca9d
     .desc-travel
-        font-size: 12px
+        font-size: 14px
         color: #333
         padding: 10px 24px 8px
         p 
-            line-height: 18px
+            line-height: 24px
         .time
             margin-top: 24px 
     .desc-change

@@ -5,7 +5,7 @@
 				<i slot="icon" class="iconfont icon-daishouhuo"></i>
 				<span slot="label">线路</span>
 			</tabbar-item>
-			<tabbar-item :selected = "$route.path == '/order'" badge="2" link="/order"> 
+			<tabbar-item :selected = "$route.path == '/order'" link="/order"> 
 				<i slot="icon" class="iconfont icon-icon-2"></i>
 				<span slot="label">订单</span>
 			</tabbar-item>

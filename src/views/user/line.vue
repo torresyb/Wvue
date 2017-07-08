@@ -20,13 +20,13 @@
                         <div class="tab-swiper vux-center">
                             <p class="wx-title">{{item.des}}</p>
                             <p class="wx-right wx-red">{{item.status}}</p>
-                            <a :href="item.url" class="weui-media-box weui-media-box_appmsg">
+                            <a href="javascript:;" class="weui-media-box weui-media-box_appmsg">
                                 <div class="weui-media-box__hd">
                                     <img :src="item.src" alt="">
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
-                                    <x-button plain type="primary" mini @click="edit()">下线发布</x-button>
-                                    <x-button mini type="primary" style="margin-left:5px" @click="edit()" action-type="button">修改线路</x-button>
+                                    <x-button plain type="primary" mini @click.native = 'downHandle(index)'>下线发布</x-button>
+                                    <x-button mini type="primary" action-type="button" style="margin-left:5px" link="/user/create">修改线路</x-button>
                                 </div>
                             </a>
                         </div>
@@ -43,7 +43,7 @@
 
 <script>
 import WxFooter from '../../components/WxFooter'
-import { Tab, TabItem,  Divider, XButton, Swiper, SwiperItem, Card, Panel, ViewBox, LoadMore, Scroller, Spinner, Group, Cell, Flexbox, FlexboxItem} from 'vux'
+import { Sticky,Tab, TabItem,  Divider, XButton, Swiper, SwiperItem, Card, Panel, ViewBox, LoadMore, Scroller, Spinner, Group, Cell, Flexbox, FlexboxItem} from 'vux'
 export default {
     name: 'lineList',
 
@@ -87,6 +87,7 @@ export default {
 
     components: {
         WxFooter,
+        Sticky,
         Tab,
         TabItem,        
         Divider,
@@ -115,11 +116,9 @@ export default {
         onScrollBottom () {
             console.log('滚动到底部')
         },
-
-        // 点击修改路线
-        edit() {
-            // this.$router.push('/user/create')
-            console.log('11111111')
+        // 下线
+        downHandle (index) {
+            console.log('下线', index)
         }
     }
 }

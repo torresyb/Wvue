@@ -1,13 +1,13 @@
 <template>
-    <div id="userCreate" class="userCreate">
+    <div id="userCreate" class="userCreate" style="padding-bottom:80px">
         <!-- banner -->
         <div class="banner"></div>
         
         <group class="border-bottom">
-            <x-input title="线路名称" placeholder="请输入线路名称" v-model="value1"></x-input>
-            <x-input title="旅游景点" placeholder="请输入旅游景点" v-model="value2"></x-input>
-            <x-input title="接待人数" placeholder="请输入人数" v-model="value3" type="number"></x-input>
-            <datetime @on-change="change" title="出导日历" v-model="value4" placeholder="请输入旅程日期"></datetime>
+            <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model="value1"></x-input>
+            <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model="value2"></x-input>
+            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="value3" type="number"></x-input>
+            <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="value4" placeholder="请输入旅程日期"></datetime>
             <datetime 
                 v-model="value5" 
                 format="YYYY-MM-DD HH:mm" 
@@ -17,17 +17,17 @@
                 title="出导时间"
                 placeholder="请输入旅程时间"
             ></datetime>
-            <x-input title="行程时长" placeholder="请输入行程时长" v-model="value6" type="number"></x-input>
-            <x-input title="讲解分类" placeholder="请填写分类" v-model="value7"></x-input>
+            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="value6" type="number"></x-input>
+            <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model="value7"></x-input>
         </group>
 
         <div class="desc-travel">
             <h3>行程介绍</h3>
-            <input type="text">
+            <x-textarea :max="200" :rows="1" autosize name="description"></x-textarea>
         </div>
         <div class="desc-myself">
             <h3>自我介绍</h3>
-            <input type="text">
+            <x-textarea :max="200" :rows="1" autosize name="description"></x-textarea>
         </div>
 
         <!-- 按钮 -->
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, Datetime, Group, XButton, XInput} from 'vux'
+import { Tabbar, TabbarItem, Datetime, Group, XButton, XInput, XTextarea} from 'vux'
 export default {
     name: 'userCreate',
 
@@ -63,6 +63,7 @@ export default {
         Group,
         XButton,
         XInput,
+        XTextarea
     },
 
     created () {
@@ -110,12 +111,10 @@ export default {
     font-size: 13px
     margin-top: 0
     line-height: 25px
+.userCreate .vux-x-textarea
+    border: 1px solid #dedede
 .userCreate .weui-cell:before
     left: -15px
-.userCreate .weui-cell__hd
-    width: 210px
-.userCreate .vux-datetime p
-    width: 210px
-.userCreate .weui-cell_access .weui-cell__ft
-    text-align: left
+.userCreate .vux-x-textarea:before
+    border: none
 </style>
