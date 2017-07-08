@@ -25,7 +25,7 @@
                                     <img :src="item.src" alt="">
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
-                                    <x-button plain type="primary" mini>下线发布</x-button>
+                                    <x-button plain type="primary" mini @click="edit()">下线发布</x-button>
                                     <x-button mini type="primary" style="margin-left:5px" @click="edit()" action-type="button">修改线路</x-button>
                                 </div>
                             </a>
