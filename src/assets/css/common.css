@@ -44,6 +44,11 @@ body {
     line-height: 1.6;
     font-family: -apple-system-font,Helvetica Neue,sans-serif;
 }
+body, html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
 /**
  * Add the correct display in IE 9-.
  */

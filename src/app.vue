@@ -1,6 +1,6 @@
 <!--主入口 -->
 <template>
-	<div id="app">
+	<div id="app" style="height:100%;">
 		<!-- loading -->
     	<!-- <nprogress-container></nprogress-container> -->
 		<!-- 路由 页面切换 -->
