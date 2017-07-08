@@ -12,8 +12,8 @@
                                     <img :src="item.src" alt="">
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
-                                        <x-button plain type="primary" mini>下线发布</x-button>
-                                        <x-button mini type="primary" style="margin-left:10px">修改线路</x-button>
+                                    <x-button plain type="primary" mini>下线发布</x-button>
+                                    <x-button mini type="primary" style="margin-left:10px" @click="edit()" action-type="button">修改线路</x-button>
                                 </div>
                             </a>
                         </div>
@@ -36,6 +36,7 @@ export default {
 
     data () {
         return {
+            config: vm.config,            // 配置
             onFetching: false,
             lineList: [{
                 src: 'http://placeholder.qiniudn.com/120x60/3cc51f/ffffff',
@@ -90,8 +91,8 @@ export default {
         Flexbox, FlexboxItem
     },
 
-    mounted () {
-
+    created () {
+        this.config.title('线路管理')
     },
 
     methods: {
@@ -100,6 +101,12 @@ export default {
         },
         onScrollBottom () {
             console.log('滚动到底部')
+        },
+
+        // 点击修改路线
+        edit() {
+            // this.$router.push('/user/create')
+            console.log('11111111')
         }
     }
 }

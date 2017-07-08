@@ -1,7 +1,7 @@
 <template>
     <div id="confirm" class="confirm">
-        <div>
-            确认订单页
+        <div class="header">
+            
         </div>
     </div>
 </template>
@@ -13,12 +13,12 @@ export default {
 
     data () {
         return {
-            
+            config: vm.config,       // 配置
         }
     },
 
-    mounted () {
-        
+    created () {
+        this.config.title('订单号：20170707')
     },
 
     methods: {

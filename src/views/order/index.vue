@@ -47,6 +47,7 @@ export default {
 
     data () {
         return {
+            config: vm.config,            // 配置
             onFetching: false,
             orderList: [{
                 src: 'http://placeholder.qiniudn.com/120x60/3cc51f/ffffff',
@@ -111,8 +112,8 @@ export default {
         Cell
     },
 
-    mounted () {
-
+    created () {
+        this.config.title('订单')
     },
 
     methods: {

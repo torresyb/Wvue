@@ -23,7 +23,7 @@ export default {
 	    userInfo: 'userInfo'
 	}),
 	beforeMount () {
-		this.loginHandle()
+		// this.loginHandle()
 	},
 	methods: {
 		...mapActions([
@@ -52,6 +52,9 @@ export default {
 </script>
 
 <style>
+#app{
+	background: #fff
+}
 html {
 	color: #333!important;
 }

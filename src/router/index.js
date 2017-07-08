@@ -10,7 +10,6 @@ let config = [
 
     '/user/line',                   // 线路管理
     '/user/create',                 // 旅游内容(修改路线)
-    '/user/support',                // 帮助支持
     '/user/money',                  // 我的钱包
     '/user/detail',                 // 收支明细
     '/user/getCash',                // 提现
@@ -22,7 +21,6 @@ let config = [
 
     // 订单相关
     '/order/index',                 // 订单列表(已确认、未确认)
-    '/order/detail',                // 订单详情
     '/order/confirm',               // 确认订单  
 
     // 未授权

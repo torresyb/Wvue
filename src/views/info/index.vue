@@ -33,6 +33,7 @@ export default {
             config: vm.config,                      // 配置
         }
     },
+    
     components: {
         Tabbar,
         TabbarItem

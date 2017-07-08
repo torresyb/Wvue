@@ -1,13 +1,13 @@
 <template>
     <div class="home">
-        <div class="banner">
+        <div class="banner" @click="goInfo">
             <img src="../../assets/images/auth.png" alt="">
             <p>艾子豪</p>
         </div>
         <group>
             <cell title = '我的订单' link="/order" is-link></cell>
             <cell title = '线路管理' link="/user/line" is-link></cell>
-            <cell title = '帮助支持' link="/user/support" is-link></cell>
+            <!-- <cell title = '帮助支持' link="/user/support" is-link></cell> -->
             <cell title = '我的钱包' link="/user/money" is-link></cell>
         </group>
 
@@ -17,7 +17,6 @@
 
 <script>
 import WxFooter from '../../components/WxFooter'
-// import {Cell,Group} from 'vux'
 import { Cell, Group } from 'vux'
 export default {
     name: 'home',
@@ -40,7 +39,9 @@ export default {
     },
 
     methods: {
-        
+        goInfo() {
+            this.$router.push('/info')
+        }
     }
 }
 </script>
