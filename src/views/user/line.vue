@@ -13,7 +13,7 @@
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
                                     <x-button plain type="primary" mini>下线发布</x-button>
-                                    <x-button mini type="primary" style="margin-left:10px" @click="edit()" action-type="button">修改线路</x-button>
+                                    <x-button mini type="primary" action-type="button" style="margin-left:10px" @click="edit()">修改线路</x-button>
                                 </div>
                             </a>
                         </div>
