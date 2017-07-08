@@ -23,8 +23,21 @@
 
         <!-- 图片上传区域 -->
         <div class="pic-box">
-            
+            <div class="pic-id1 pic">
+                <i class="iconfont icon-plus_fuzhi"></i>
+                <p>请上传身份证正面</p>
+            </div>
+            <div class="pic-id2 pic">
+                <i class="iconfont icon-plus_fuzhi"></i>
+                <p>请上传身份证正面</p>
+            </div>
         </div>
+        <div class="pic-id3 pic">
+            <i class="iconfont icon-plus_fuzhi"></i>
+            <p>请上传身份证正面</p>
+        </div>
+
+        <button>提交审核</button>
     </div>
 </template>
 
@@ -39,7 +52,7 @@ export default {
         }
     },
 
-    beforeMounted () {
+    created () {
         this.config.title('完善真实身份')
     },
 
@@ -66,6 +79,7 @@ export default {
             input 
                 flex: 1
                 border: none
+                outline: none
             i 
                 display: inline-block
                 position: absolute
@@ -81,5 +95,43 @@ export default {
                 border-radius: 4px
                 font-style: normal
     .pic-box
-        padding: 30px 15px 0 15px
+        padding: 30px 15px 24px 15px
+        display: flex
+        justify-content: space-between
+        .pic-id1,.pic-id2
+            width: 158px
+            height: 120px
+            padding: 22px 0 32px 0 
+    .pic-id3
+        width: 265px
+        height: 100px
+        margin: 0 auto
+        padding: 15px 0 20px 0
+    .pic
+        border: 1px dashed #dedede
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        text-align: center
+        box-sizing: border-box
+        i 
+            color: #03ca9d
+            font-size: 24px
+        p 
+            color: #999
+            font-size: 12px
+
+    button
+        width: 202px
+        height: 44px
+        line-height: 44px
+        text-align: center
+        color: #fff
+        background: #03ca9d
+        display: block 
+        margin: 50px auto 0
+        border: none
+        border-radius: 4px
+
+
 </style>
