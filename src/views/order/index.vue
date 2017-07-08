@@ -1,6 +1,6 @@
 <template>
     <view-box ref="viewBox" body-padding-bottom="55px">
-        <div class="orderList">
+        <div class="orderList bg-gray">
             <sticky scrollBox="vux_view_box_body" :offset="46">
                 <tab :line-width=2 active-color='#04be02'>
                     <tab-item selected @on-item-click = 'itemClickHandle'>

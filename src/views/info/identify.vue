@@ -64,6 +64,8 @@ export default {
 
 <style scoped lang="sass">
 .identify
+    padding-bottom: 20px
+.identify
     ul 
         li 
             display: flex
@@ -99,19 +101,18 @@ export default {
         display: flex
         justify-content: space-between
         .pic-id1,.pic-id2
-            width: 158px
+            width: 45%
             height: 120px
-            padding: 22px 0 32px 0 
+            padding: 0
     .pic-id3
         width: 265px
         height: 100px
         margin: 0 auto
-        padding: 15px 0 20px 0
     .pic
         border: 1px dashed #dedede
         display: flex
         flex-direction: column
-        justify-content: space-between
+        justify-content: center
         text-align: center
         box-sizing: border-box
         i 

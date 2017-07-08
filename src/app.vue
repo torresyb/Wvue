@@ -52,11 +52,14 @@ export default {
 </script>
 
 <style>
-#app{
-	background: #fff
-}
 html {
 	color: #333!important;
+}
+.bg-fff{
+	background-color: #fff;
+}
+.bg-gray{
+	background-color: #f7f7f7;
 }
 .wx-box .wx-item{
 	padding: 15px 10px 0;
