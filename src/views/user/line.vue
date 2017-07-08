@@ -1,6 +1,19 @@
 <template>
     <view-box ref="viewBox" body-padding-bottom="55px">
-        <div class="lineList">
+        <div class="lineList bg-gray">
+            <sticky scrollBox="vux_view_box_body" :offset="46">
+                <tab :line-width=2 active-color='#04be02'>
+                    <tab-item selected @on-item-click = 'itemClickHandle'>
+                        通过审核
+                    </tab-item>
+                    <tab-item @on-item-click = 'itemClickHandle'>
+                        审核中
+                    </tab-item>
+                    <tab-item @on-item-click = 'itemClickHandle'>
+                        未通过审核
+                    </tab-item>
+                </tab>
+            </sticky>
              <scroller lock-x scrollbar-y @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in lineList' :key="index">
