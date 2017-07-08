@@ -1,39 +1,45 @@
 <template>
-    <div class="orderList">
-        <sticky scrollBox="vux_view_box_body" :offset="46">
-            <tab :line-width=2 active-color='#04be02'>
-                <tab-item selected @on-item-click = 'itemClickHandle'>
-                    待确认
-                </tab-item>
-                <tab-item @on-item-click = 'itemClickHandle'>
-                    已确认
-                </tab-item>
-            </tab>
-        </sticky>
-        <div class="wx-box" v-for = '(item, index) in orderList' :key="index">
-            <div class="tab-swiper vux-center">
-                <p class="wx-title">{{item.des}}</p>
-                <p class="wx-right">{{item.status}}</p>
-                <a :href="item.url" class="weui-media-box weui-media-box_appmsg">
-                    <div class="weui-media-box__hd">
-                        <img :src="item.src" alt="">
+    <view-box ref="viewBox" body-padding-bottom="55px">
+        <div class="orderList">
+            <sticky scrollBox="vux_view_box_body" :offset="46">
+                <tab :line-width=2 active-color='#04be02'>
+                    <tab-item selected @on-item-click = 'itemClickHandle'>
+                        待确认
+                    </tab-item>
+                    <tab-item @on-item-click = 'itemClickHandle'>
+                        已确认
+                    </tab-item>
+                </tab>
+            </sticky>
+             <scroller lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+                <div class="wx-box" v-for = '(item, index) in orderList' :key="index">
+                    <div class="tab-swiper vux-center">
+                        <p class="wx-title">{{item.des}}</p>
+                        <p class="wx-right">{{item.status}}</p>
+                        <a :href="item.url" class="weui-media-box weui-media-box_appmsg">
+                            <div class="weui-media-box__hd">
+                                <img :src="item.src" alt="">
+                            </div>
+                            <div class="weui-media-box__bd">
+                                <h4>浏览时间：{{item.time}}</h4>
+                                <p>游客人数：{{item.num}}人</p>
+                                <p>订单金额：￥{{item.money}}</p>
+                            </div>
+                        </a>
                     </div>
-                    <div class="weui-media-box__bd">
-                        <h4>浏览时间：{{item.time}}</h4>
-                        <p>游客人数：{{item.num}}人</p>
-                        <p>订单金额：￥{{item.money}}</p>
-                    </div>
-                </a>
-            </div>
+                </div>
+                <load-more :tip="正在加载"></load-more>
+            </scroller>
+            <!-- <load-more :show-loading="false" :tip="暂无数据" background-color="#fbf9fe"></load-more> -->
+            <!-- 公用底部 -->
+            <wx-footer></wx-footer>
         </div>
-        <!-- 公用底部 -->
-        <wx-footer></wx-footer>
-    </div>
+    </view-box>
 </template>
 
 <script>
 import WxFooter from '../../components/WxFooter'
-import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem, Card, Panel, Drawer  } from 'vux'
+import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem, Card, Panel, ViewBox, LoadMore, Scroller } from 'vux'
 export default {
     name: 'orderList',
 
@@ -85,7 +91,10 @@ export default {
         Swiper,
         SwiperItem,
         Card,
-        Panel
+        Panel,
+        ViewBox,
+        LoadMore,
+        Scroller
     },
 
     mounted () {
@@ -95,6 +104,9 @@ export default {
     methods: {
         itemClickHandle (val){
             console.log('tab:',val)
+        },
+        onScrollBottom () {
+            console.log('滚动到底部')
         }
     }
 }
