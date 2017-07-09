@@ -47,8 +47,8 @@ export default {
 		 //      	})
 		 //    })
 
-		 this.$http.post('http://lxapi.361web.net/guide/login?oid=asfasfqe1134').then((rst) => {
-		 		console.log('rst:',ret)
+		 this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
+		 		console.log('rst:',rst.body)
 				// if(rst.body.guide_status == 1){
 				// 	this.setUser({isLogin:true, adminInfo:rst.data.data})
 				// 	this.$router.push('/order')
