@@ -12,8 +12,8 @@
 
 <script>
 import './assets/css/common.css'
-// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import { mapGetters, mapActions } from 'vuex'
+// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 export default {
 	// components: {
@@ -23,7 +23,7 @@ export default {
 	    userInfo: 'userInfo'
 	}),
 	beforeMount () {
-		// this.loginHandle()
+		this.loginHandle()
 	},
 	methods: {
 		...mapActions([
@@ -31,20 +31,37 @@ export default {
 		]),
 		loginHandle () {
 			// 实名认证
-			this.$http.post('/user/login').then((rst) => {
-				if(rst.body.state == 1){
-					this.setUser({isLogin:true,adminInfo:rst.data.data[0]})
-					this.$router.push('/order')
-				}else{
-					this.setUser({isLogin:false, adminInfo:null})
-					this.$router.push('/')
-				}
+			// this.$http.post('/user/login').then((rst) => {
+			// 	if(rst.body.state == 1){
+			// 		this.setUser({isLogin:true,adminInfo:rst.data.data[0]})
+			// 		this.$router.push('/order')
+			// 	}else{
+			// 		this.setUser({isLogin:false, adminInfo:null})
+			// 		this.$router.push('/')
+			// 	}
+		 //    },(err) => {
+		 //      	this.setUser({isLogin:false, adminInfo:null})
+		 //      	this.$vux.toast.show({
+		 //      		type: 'warn',
+		 //      		text: '服务端错误'
+		 //      	})
+		 //    })
+
+		 this.$http.post('http://lxapi.361web.net/guide/login?oid=asfasfqe1134').then((rst) => {
+		 		console.log('rst:',ret)
+				// if(rst.body.guide_status == 1){
+				// 	this.setUser({isLogin:true, adminInfo:rst.data.data})
+				// 	this.$router.push('/order')
+				// }else{
+				// 	this.setUser({isLogin:false, adminInfo:null})
+				// 	this.$router.push('/')
+				// }
 		    },(err) => {
-		      	this.setUser({isLogin:false, adminInfo:null})
-		      	this.$vux.toast.show({
-		      		type: 'warn',
-		      		text: '服务端错误'
-		      	})
+		      	// this.setUser({isLogin:false, adminInfo:null})
+		      	// this.$vux.toast.show({
+		      	// 	type: 'warn',
+		      	// 	text: '服务端错误'
+		      	// })
 		    })
 		}
 	}

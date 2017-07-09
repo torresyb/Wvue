@@ -2,24 +2,20 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import Config from './config'
 import VueResource from 'vue-resource'
-// import NProgress from 'vue-nprogress'
 import * as Storage from './plugin/storage'
 import * as filters from './filters'
 import Moment from 'moment'
-import {
-    sync
-} from 'vuex-router-sync'
-// 微信sdk
-import {
-    ToastPlugin,
-    WechatPlugin,
-    LoadingPlugin,
-    AlertPlugin
-} from 'vux'
+import {sync} from 'vuex-router-sync'
+import { mapGetters, mapActions } from 'vuex'
+
+// vux相关组件
+import {ToastPlugin, WechatPlugin, LoadingPlugin, AlertPlugin} from 'vux'
 
 import App from './app'
 import router from './router'
 import store from './store'
+
+// import NProgress from 'vue-nprogress'
 
 // 点击延迟
 import FastClick from 'fastclick'
@@ -47,11 +43,11 @@ Object.keys(filters).forEach(key => {
 
 // 加载组件
 Vue.use(VueResource)
-    // Vue.use(NProgress)
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(AlertPlugin)
+// Vue.use(NProgress)
 
 const wx = Vue.wechat
 
@@ -99,12 +95,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 window.vm = new Vue({
+    // nprogress,
     el: '#app',
     router,
-    // nprogress,
     store,
     render: h => h(App),
     data: {
         config: Config, // 全局注入配置
+        mapGetters,     // 全局引入 vuex mapGetters 函数
+        mapActions      // 全局引入 vuex mapActions 函数
     }
 });
