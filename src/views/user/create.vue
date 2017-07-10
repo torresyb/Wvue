@@ -32,7 +32,7 @@
 
         <!-- 按钮 -->
         <tabbar>
-            <tabbar-item><span slot="label">提交审核</span></tabbar-item>
+            <tabbar-item @click.native="confirm"><span slot="label">提交审核</span></tabbar-item>
         </tabbar>
     </div>
 </template>
@@ -45,13 +45,22 @@ export default {
     data () {
         return {
             config: vm.config,           // 配置
-            value1: '', 
-            value2: '', 
-            value3: '', 
-            value4: '', 
-            value5: '', 
-            value6: '', 
-            value7: '', 
+            value1: '',                  // 线路名称
+            value2: '',                  // 景点名称        
+            value3: '',                  // 人数
+            value4: '',                  // 出导日历
+            value5: '',                  // 出导时间
+            value6: '',                  // 时长
+            value7: '',                  // 讲解分类
+            lineId: '',
+            viewName: '',                 // 景点名称 
+            maxCount: '',                 // 接待人数
+            workDays: '',                 // 接待的日期
+            workTime: '',                 // 可接待的时间
+            content:  '',               // 线路内容
+            vLength:  '',               // 预计浏览时间
+            intro:  '',                 // 自我介绍
+            lineTye: ''                   // 线路类型
             
         }
     },
@@ -74,6 +83,42 @@ export default {
         change (value) {
             console.log('change', value)
         },
+
+        // 审核
+        confirm() {
+            if(!this.name){
+                this.toast('请填写真实姓名')
+                return
+            }
+            if(!this.idCard || (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.idCard))){
+                this.toast('请填写身份证号')
+                return
+            }
+            if(!this.tel || !(/^1(3|4|5|7|8)\d{9}$/.test(this.tel))){
+                this.toast('请填写手机号码')
+                return
+            }
+            if(!this.authCode){
+                this.toast('请填写手机验证码')
+                return
+            }
+            this.$http.post('/guide/line',{
+                lineId:'',
+                viewName: '',
+                maxCount: '',
+                workDays: '',
+                workTime: '',
+                content:  '',
+                vLength:  '',
+                intro:  '',
+                lineTye: ''
+            }).then((rst) => {
+                
+            },(err) => {
+                
+            })
+        },
+
     }
 }
 </script>

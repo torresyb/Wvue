@@ -23,45 +23,27 @@ export default {
 	    userInfo: 'userInfo'
 	}),
 	beforeMount () {
-		this.loginHandle()
+		// this.loginHandle()
 	},
 	methods: {
 		...mapActions([
 			'setUser'
 		]),
 		loginHandle () {
-			// 实名认证
-			// this.$http.post('/user/login').then((rst) => {
-			// 	if(rst.body.state == 1){
-			// 		this.setUser({isLogin:true,adminInfo:rst.data.data[0]})
-			// 		this.$router.push('/order')
-			// 	}else{
-			// 		this.setUser({isLogin:false, adminInfo:null})
-			// 		this.$router.push('/')
-			// 	}
-		 //    },(err) => {
-		 //      	this.setUser({isLogin:false, adminInfo:null})
-		 //      	this.$vux.toast.show({
-		 //      		type: 'warn',
-		 //      		text: '服务端错误'
-		 //      	})
-		 //    })
-
-		 this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
-		 		console.log('rst:',rst.body)
-				// if(rst.body.guide_status == 1){
-				// 	this.setUser({isLogin:true, adminInfo:rst.data.data})
-				// 	this.$router.push('/order')
-				// }else{
-				// 	this.setUser({isLogin:false, adminInfo:null})
-				// 	this.$router.push('/')
-				// }
+		    this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
+				if(rst.body.data.guide_status == 1){
+					this.setUser({isLogin:true, adminInfo:rst.body.data.data})
+					this.$router.push('/')
+				}else{
+					this.setUser({isLogin:false, adminInfo:null})
+					this.$router.push('/info')
+				}
 		    },(err) => {
-		      	// this.setUser({isLogin:false, adminInfo:null})
-		      	// this.$vux.toast.show({
-		      	// 	type: 'warn',
-		      	// 	text: '服务端错误'
-		      	// })
+		      	this.setUser({isLogin:false, adminInfo:null})
+		      	this.$vux.toast.show({
+		      		type: 'warn',
+		      		text: '服务端错误'
+		      	})
 		    })
 		}
 	}
@@ -71,6 +53,7 @@ export default {
 <style>
 html {
 	color: #333!important;
+	font-family: PingFangSC-Regular!important;
 }
 .bg-fff{
 	background-color: #fff;

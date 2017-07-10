@@ -77,12 +77,33 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
+// module.exports = app.listen(port, function (err) {
+//   if (err) {
+//     console.log(err)
+//     return
+//   }
+//   var uri = 'http://localhost:' + port
+//   console.log('Dev server listening at ' + uri + '\n')
+//   // opn(uri)
+// })
+// 获取本机 ip 地址，用于 broswer 打开 server 后，真机扫码测试
+var os = require('os')
+var IPv4
+os.networkInterfaces().en0.forEach(function(item, index){
+  if (item.family == 'IPv4') IPv4 = item.address
+})
+// 获取 port
+var port = process.env.PORT || config.dev.port
+// 拼接 URI
+var uri = 'http://' + IPv4 + ':' + port
+
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
     return
   }
-  var uri = 'http://localhost:' + port
-  console.log('Dev server listening at ' + uri + '\n')
-  // opn(uri)
+  console.log('Server listening at ' + uri + '\n')
+
+  // when env is testing, don't need open it
+  if (process.env.NODE_ENV !== 'testing') opn(uri)
 })

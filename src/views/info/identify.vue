@@ -4,20 +4,33 @@
         <ul>
             <li class="border-bottom">
                 <span>真实姓名：</span>
-                <input type="text" placeholder="请输入与身份证相符的真实姓名">
+                <input type="text" placeholder="请输入与身份证相符的真实姓名" v-model.trim="name" maxlength="6">
+            </li>
+            <li class="border-bottom">
+                <span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</span>
+                <label for="radio1" :class="{'active': sex == 0}">男</label>
+                <input type="radio" name="sexStyle" value="0" id="radio1" v-model="sex">
+                <label for="radio2" :class="{'active': sex == 1}">女</label>
+                <input type="radio" name="sexStyle" value="1" id="radio2" v-model="sex">
             </li>
             <li class="border-bottom">
                 <span>身份证号：</span>
-                <input type="text" placeholder="请输入证件号">
+                <input type="text" placeholder="请输入证件号" v-model.trim="idCard" maxlength="18">
             </li>
+            <datetime 
+                class="border-bottom"
+                title="生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：" 
+                v-model="birthday" 
+                placeholder="请输入生日日期"
+            ></datetime>
             <li class="border-bottom">
                 <span>联系方式：</span>
-                <input type="tel" placeholder="请输入手机号">
-                <i>发送验证码</i>
+                <input type="tel" placeholder="请输入手机号" v-model.trim="tel" maxlength="11">
+                <i ref="i" @click="sendCode" :class="{on:codeText!=('发送验证码' || '重新获取')}">{{codeText}}</i>
             </li>
             <li class="border-bottom">
                 <span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</span>
-                <input type="text" placeholder="请输入验证码">
+                <input type="text" placeholder="请输入验证码" v-model.trim="authCode" maxlength="4">
             </li>
         </ul>
 
@@ -26,30 +39,54 @@
             <div class="pic-id1 pic">
                 <i class="iconfont icon-plus_fuzhi"></i>
                 <p>请上传身份证正面</p>
+                <img :src="idCardShow1" alt="">
+                <input @change="upload1($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
             </div>
             <div class="pic-id2 pic">
                 <i class="iconfont icon-plus_fuzhi"></i>
                 <p>请上传身份证正面</p>
+                <img :src="idCardShow2" alt="">
+                <input @change="upload2($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
             </div>
         </div>
         <div class="pic-id3 pic">
             <i class="iconfont icon-plus_fuzhi"></i>
-            <p>请上传身份证正面</p>
+            <p>请上传导游证正面</p>
+            <img :src="idCardShow3" alt="">
+            <input @change="upload3($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
         </div>
 
-        <button>提交审核</button>
+        <button type="button" @click="confirm">提交审核</button>
     </div>
 </template>
 
 <script>
-
+import { Datetime } from 'vux'
 export default {
     name: 'identify',
 
     data () {
         return {
             config: vm.config,                      // 配置
+            sex: null,                              // 性别
+            name: '',                               // 姓名
+            idCard: '',                             // 身份证
+            tel: null,                              // 电话号码
+            birthday: '',                           // 生日
+            authCode: null,                         // 验证码
+            codeText: '发送验证码',                   // 按钮文字
+            isClicked: false,                       // 是否已点击按钮
+            idCardShow1: '',                        // 身份证正面(显示用)
+            frontImg: '',                           // 身份证正面
+            idCardShow2: '',                        // 身份证反面(显示用)
+            backImg: '',                            // 身份证反面
+            idCardShow3: '',                        // 导游证(显示用)
+            guideCardImg: '',                       // 导游证
         }
+    },
+
+    components: {
+        Datetime
     },
 
     created () {
@@ -57,7 +94,179 @@ export default {
     },
 
     methods: {
-        
+        // vux基础上封装toast
+        toast(mes){
+            this.$vux.toast.show({
+                text: mes,
+                type: 'text'
+            })
+        },
+
+        // 发送验证码
+        sendCode() {
+            if(!this.tel || !(/^1(3|4|5|7|8)\d{9}$/.test(this.tel))){
+                this.toast('请填写正确的手机号码')
+                return
+            }
+
+            if(!this.isClicked){
+                this.isClicked = true
+                this.$http.get(`/user/code?mobile=${this.tel}`).then((rst) => {
+                    this.countDown()
+                })
+            }
+        },
+
+         // 倒计时
+        countDown () {
+            let time = 60
+            let timer = setInterval(() => {
+                time --
+                this.codeText = "重新获取(" + time + "')"
+                if(!time) {
+                    clearInterval(timer)
+                    this.codeText = "重新获取"
+                    this.isClicked = false
+                }
+            }, 1000)
+        },
+
+
+        // 上传图片(身份证正面)
+        uploadBase641(upfile,callback){
+            var reader = new FileReader()
+            reader.onload = (evt)=>{
+                var imgData = evt.target.result
+                var data = {}
+                data.oid = 'asfasfqe1134'
+                data.img = imgData
+                data.remotePath = '/agent'
+                data.filename = upfile.name
+                data.mimetype = upfile.type
+                this.$http.post('/upload/uploadFile',data).then((rst) => {
+                    if(rst.body.res_code === 200){
+                        this.toast('图片上传成功')
+                        callback(rst)
+                    }
+                },(err) => {
+                    
+                })
+            }
+            reader.readAsDataURL(upfile)
+        },
+        upload1(event){
+            if(!event.target.value) return
+            this.uploadBase641(event.target.files[0],(rst)=>{
+                this.idCardShow1 = rst.body.prefix + rst.body.data.path
+                this.frontImg = rst.body.data.path
+            })
+        },
+
+        // 上传图片(身份证反面)
+        uploadBase642(upfile,callback){
+            var reader = new FileReader()
+            reader.onload = (evt)=>{
+                var imgData = evt.target.result
+                var data = {}
+                data.oid = 'asfasfqe1134'
+                data.img = imgData
+                data.remotePath = '/agent'
+                data.filename = upfile.name
+                data.mimetype = upfile.type
+                this.$http.post('/upload/uploadFile',data).then((rst) => {
+                    if(rst.body.res_code === 200){
+                        this.toast('图片上传成功')
+                        callback(rst)
+                    }
+                },(err) => {
+                    
+                })
+            }
+            reader.readAsDataURL(upfile)
+        },
+        upload2(event){
+            if(!event.target.value) return
+            this.uploadBase642(event.target.files[0],(rst)=>{
+                this.idCardShow2 = rst.body.prefix + rst.body.data.path
+                this.backImg = rst.body.data.path
+            })
+        },
+        // 上传图片(导游证)
+        uploadBase643(upfile,callback){
+            var reader = new FileReader()
+            reader.onload = (evt)=>{
+                var imgData = evt.target.result
+                var data = {}
+                data.oid = 'asfasfqe1134'
+                data.img = imgData
+                data.remotePath = '/agent'
+                data.filename = upfile.name
+                data.mimetype = upfile.type
+                this.$http.post('/upload/uploadFile',data).then((rst) => {
+                    if(rst.body.res_code === 200){
+                        this.toast('图片上传成功')
+                        callback(rst)
+                    }
+                },(err) => {
+                    this.toast(err.body.msg)
+                })
+            }
+            reader.readAsDataURL(upfile)
+        },
+        upload3(event){
+            if(!event.target.value) return
+            this.uploadBase643(event.target.files[0],(rst)=>{
+                this.idCardShow3 = rst.body.prefix + rst.body.data.path
+                this.guideCardImg = rst.body.data.path
+            })
+        },
+
+        // 审核
+        confirm() {
+            if(!this.name){
+                this.toast('请填写真实姓名')
+                return
+            }
+            if(!this.idCard || (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.idCard))){
+                this.toast('请填写身份证号')
+                return
+            }
+            if(!this.tel || !(/^1(3|4|5|7|8)\d{9}$/.test(this.tel))){
+                this.toast('请填写手机号码')
+                return
+            }
+            if(!this.authCode){
+                this.toast('请填写手机验证码')
+                return
+            }
+            if(!this.frontImg){
+                this.toast('请上传身份证正面照片')
+                return
+            }
+            if(!this.backImg){
+                this.toast('请上传身份证反面照片')
+                return
+            }
+            if(!this.guideCardImg){
+                this.toast('请上传导游证照片')
+                return
+            }
+            this.$http.post('/guide/user/toReview',{
+                oid: 'asfasfqe1134',
+                cardNum: this.idCard,
+                phone: this.tel,
+                birthday: this.birthday,
+                gender: this.sex,
+                frontImg: this.frontImg,
+                backImg: this.backImg,
+                guideCardImg: this.guideCardImg,
+                realName: this.name
+            }).then((rst) => {
+                this.toast('身份信息已提交审核，请稍候查看')
+            },(err) => {
+                this.toast(err.body.msg)
+            })
+        }
     }
 }
 </script>
@@ -71,31 +280,41 @@ export default {
             display: flex
             height: 58px
             line-height: 58px
-            font-size: 13px
+            font-size: 14px
             position: relative
             span
                 margin-left: 16px
                 display: inline-block
-                width: 65px
+                width: 80px
                 color: #333
             input 
                 flex: 1
                 border: none
                 outline: none
+            #radio1,#radio2
+                margin: 21px 0
+                height: 30%
+                flex: .2
+            label
+                font-size: 14px
+            .active
+                color: #03ca9d
+            .on 
+                background: #ccc
             i 
                 display: inline-block
                 position: absolute
                 right: 15px
                 top: 50%
                 transform: translateY(-50%)
-                width: 80px
                 height: 28px
                 line-height: 28px
                 color: #fff 
                 text-align: center
                 background: #03ca9d
-                border-radius: 4px
+                border-radius: 100px
                 font-style: normal
+                padding: 0px 10px
     .pic-box
         padding: 30px 15px 24px 15px
         display: flex
@@ -104,10 +323,42 @@ export default {
             width: 45%
             height: 120px
             padding: 0
+            position: relative
+        img,input
+            width: 100%
+            height: 100%
+            position: absolute
+            left: 0
+            top: 0
+            // background: red
+        img 
+            z-index: 1
+        input
+            z-index: 2
+            opacity: 0
+            border: none
+            outline: none
+
+
     .pic-id3
         width: 265px
         height: 100px
         margin: 0 auto
+        position: relative
+        img,input
+            width: 100%
+            height: 100%
+            position: absolute
+            left: 0
+            top: 0
+            // background: red
+        img 
+            z-index: 1
+        input
+            z-index: 2
+            opacity: 0
+            border: none
+            outline: none
     .pic
         border: 1px dashed #dedede
         display: flex
@@ -133,6 +384,15 @@ export default {
         margin: 50px auto 0
         border: none
         border-radius: 4px
-
-
+</style>
+<style lang="sass">
+.identify .weui-cell:before
+    border: none
+.identify .weui-cell
+    padding: 16px 15px
+.identify .weui-cell
+    font-size: 14px
+.identify .weui-cell__ft
+    text-align: left
+    padding-left: 13px
 </style>

@@ -3,11 +3,11 @@
         <ul>
             <li class="border-bottom">
                 <span>余额</span>
-                <i>10000</i>
+                <i>{{total}}</i>
             </li>
             <li class="border-bottom">
                 <span>冻结余额</span>
-                <i>5000</i>
+                <i>{{deposit}}</i>
             </li>
             <li class="border-bottom" @click="goDetail">
                 <span>收支明细</span>
@@ -24,15 +24,31 @@ export default {
 
     data () {
         return {
-            config: vm.config        // 配置
+            config: vm.config,        // 配置
+            deposit: null,            // 冻结金额
+            total: null,              // 余额
         }
     },
 
     created () {
         this.config.title('余额')
+        this.fetchInfo()
     },
 
     methods: {
+        // 获取用户信息
+        fetchInfo(){
+            this.$http.get('/user/account/info?oid=asfasfqe1134').then((rst) => {
+                this.total = rst.body && rst.body.data && rst.body.data.total_amount
+                this.deposit = rst.body && rst.body.data && rst.body.data.deposit_amount
+            },(err) => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
+            })
+        },
+
         // 收支明细
         goDetail(){
             this.$router.push('/user/detail')
