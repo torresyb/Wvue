@@ -1,7 +1,7 @@
 <template>
     <div id="info" class="info">
         <!-- banner -->
-        <router-link to="/info/rules" class="banner"></router-link>
+        <router-link to="#/info/rules" class="banner"></router-link>
 
         <!-- 列表 -->
         <div class="head-box border-bottom">
@@ -10,7 +10,7 @@
             <i class="iconfont icon-right"></i>
             <input @change="upload($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
         </div>
-        <a :href="status ? 'javascript:;' : '/info/identify'" class="desc-box border-bottom">
+        <a :href="status ? 'javascript:;' : '#/info/identify'" class="desc-box border-bottom">
             <span>真实身份</span>
             <p>{{['未认证','认证中','已认证'][+ status]}}</p>
             <i class="iconfont icon-right"></i>

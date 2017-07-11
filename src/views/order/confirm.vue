@@ -5,7 +5,7 @@
             <img src="../../assets/images/confirm.png" alt="">
             <div class="header-main">
                 <div class="header-main-top">
-                    <span>未确认</span>
+                    <span>{{['待确认','已确认'][init.book_status - 1]}}</span>
                     <i>倒计时：10：00</i>
                 </div>
                 <p>导游正在查看您的订单信息，核实没问题后，接受订单即刻出发旅行</p>
@@ -15,10 +15,10 @@
         <!-- 行程信息 -->
         <div class="travel-title border-bottom item">行程信息</div>
         <div class="desc-travel border-bottom">
-            <p class="title">故宫城墙一日游</p>
-            <p class="line">路线：从故宫正门出发，沿着XX到正阳门，沿途带您领略不一样的故宫建筑文化...</p>
-            <p class="time">出发时间：2017年6月6日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10:30-12:30</p>
-            <p class="num">人数：5人</p>
+            <p class="title">{{init.view_spot_id}}</p>
+            <p class="line">路线：{{init.view_line_content}}</p>
+            <p class="time">出发时间：{{init.visit_date}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{init.visit_time}}</p>
+            <p class="num">人数：{{init.person_num}}人</p>
         </div>
 
         <!-- 交易信息 -->
@@ -26,21 +26,22 @@
         <div class="desc-change border-bottom">
             <p>
                 <span>导游费：</span>
-                <i>￥500</i>
+                <i>￥{{init.amount}}</i>
             </p>
             <p>
                 <span>预订人：</span>
-                <i>朱自清</i>
+                <i>{{init.contact_name}}</i>
             </p>
             <p>
                 <span>预订人电话：</span>
-                <i>13797071376</i>
+                <i>{{init.contact_phone}}</i>
             </p>
         </div>
 
         <!-- 按钮 -->
         <tabbar>
-            <tabbar-item><span slot="label">确认订单</span></tabbar-item>
+            <tabbar-item v-if="init.status && init.status===1"><span slot="label" @click="confirm">确认订单</span></tabbar-item>
+            <tabbar-item v-else-if="init.status && init.status===2"><span slot="label" @click="cancel">取消订单</span></tabbar-item>
         </tabbar>
     </div>
 </template>
@@ -52,7 +53,9 @@ export default {
 
     data () {
         return {
-            config: vm.config,       // 配置
+            config: vm.config,                        // 配置
+            orderNum: this.$route.query.orderNum,     // 订单号
+            init: {},                                 // 数据
         }
     },
 
@@ -62,11 +65,80 @@ export default {
     },
 
     created () {
-        this.config.title('订单号：20170707')
+        this.config.title('订单号：'+ this.orderNum)
+        this.fetchData()
     },
 
     methods: {
-        
+        // 获取用户信息
+        fetchData(){
+            this.$http.get(`/guide/order/detail?oid=asfasfqe1134?orderNum=${this.orderNum}`).then((rst) => {
+                rst.body = {
+                    "msg": "success",
+                    "data": {
+                        "order_num": "2017071021590013411",//订单编号
+                        "book_user_id": 13,//游客ID
+                        "create_time": "2017-07-10 01:02:10",//创建时间
+                        "view_line_content": "故宫西线慢悠悠",//线路内容
+                        "visit_date": "2017-07-12",//出行日期
+                        "visit_time": "09:00",//出行时间
+                        "contact_name": "小小罩",//联系人姓名
+                        "contact_phone": "13184060728",//联系人电话
+                        "resource_path": null,//景点默认图处相对路径
+                        "view_spot_id": null,//景点ID
+                        "person_num": 5,//出行人数
+                        "amount": 300.00,//总费用
+                        "book_status": 1,//订单状态:1=待导游确认,2=游客取消,3=导游主动取消,4=导游确认超时,5=待游客付款,6=支付超时,7=已付款,8=已出行完成,9=有投诉待确认,10=已退款,11=待评价,12=已评价
+                        "update_time": "2017-07-10 01:02:10" //上一次更新时间    
+                    },
+                    "prefix": "http://127.0.0.1:6070/",
+                    "res_code": 200
+                }
+                this.init = rst.body.data
+            },(err) => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
+            })
+        },
+
+        // 确认订单
+        confirm() {
+            this.$http.get(`/guide/order/confirm?oid=asfasfqe1134?orderNum=${this.orderNum}`).then((rst) => {
+                if(rst.body && rst.body.res_code === 200){
+                    this.$vux.toast.show({
+                        text: '订单确认成功',
+                        type: 'text',
+                        onHide () {
+                            this.$router.push('#/order?status=2')
+                        }
+                    })
+                }
+            },(err) => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
+            })
+        },
+
+        // 取消订单
+        cancel() {
+            this.$http.get(`/guide/order/cancel?oid=asfasfqe1134?orderNum=${this.orderNum}`).then((rst) => {
+                if(rst.body && rst.body.res_code === 200){
+                    this.$vux.toast.show({
+                        text: '订单取消成功',
+                        type: 'text'
+                    })
+                }
+            },(err) => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
+            })
+        }
     }
 }
 </script>

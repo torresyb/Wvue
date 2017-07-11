@@ -1,7 +1,6 @@
 <template>
     <div id="identify" class="identify">
         <!-- 列表 -->
-        <img src="http://r.361web.net/lx/temp//201707/11/201707110003065781.jpg" alt="">
         <ul>
             <li class="border-bottom">
                 <span>真实姓名：</span>
@@ -40,8 +39,7 @@
             <div class="pic-id1 pic">
                 <i class="iconfont icon-plus_fuzhi"></i>
                 <p>请上传身份证正面</p>
-                <!-- <img :src="idCardShow1" alt=""> -->
-                <img src="http://r.361web.net/lx/temp//201707/11/201707110003065781.jpg" alt="">
+                <img :src="idCardShow1" alt="">
                 <input @change="upload1($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
             </div>
             <div class="pic-id2 pic">
@@ -262,9 +260,14 @@ export default {
                 frontImg: this.frontImg,
                 backImg: this.backImg,
                 guideCardImg: this.guideCardImg,
-                realName: this.name
+                realName: this.name,
+                code: this.authCode
             }).then((rst) => {
-                this.toast('身份信息已提交审核，请稍候查看')
+                if(rst.body.res_code === 200){
+                    this.toast('身份信息已提交审核，请稍候查看')
+                }else{
+                    this.toast(rst.body.msg)
+                }
             },(err) => {
                 this.toast(err.body.msg)
             })
@@ -335,18 +338,18 @@ export default {
             // background: red
         img 
             z-index: 1
+            height: auto
         input
             z-index: 2
             opacity: 0
             border: none
             outline: none
-
-
     .pic-id3
         width: 265px
         height: 100px
         margin: 0 auto
         position: relative
+        margin-bottom: 50px
         img,input
             width: 100%
             height: 100%
@@ -356,6 +359,7 @@ export default {
             // background: red
         img 
             z-index: 1
+            height: auto
         input
             z-index: 2
             opacity: 0
@@ -368,6 +372,7 @@ export default {
         justify-content: center
         text-align: center
         box-sizing: border-box
+        overflow: hidden
         i 
             color: #03ca9d
             font-size: 24px
@@ -375,17 +380,17 @@ export default {
             color: #999
             font-size: 12px
 
-    button
-        width: 202px
-        height: 44px
-        line-height: 44px
-        text-align: center
-        color: #fff
-        background: #03ca9d
-        display: block 
-        margin: 50px auto 0
-        border: none
-        border-radius: 4px
+button
+    width: 202px
+    height: 44px
+    line-height: 44px
+    text-align: center
+    color: #fff
+    background: #03ca9d
+    display: block 
+    margin: 0 auto
+    border: none
+    border-radius: 4px
 </style>
 <style lang="sass">
 .identify .weui-cell:before

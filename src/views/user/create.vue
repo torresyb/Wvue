@@ -4,12 +4,12 @@
         <div class="banner"></div>
         
         <group class="border-bottom">
-            <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model="value1"></x-input>
-            <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model="value2"></x-input>
-            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="value3" type="number"></x-input>
+            <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
+            <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
+            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="number"></x-input>
             <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="value4" placeholder="请输入旅程日期"></datetime>
             <datetime 
-                v-model="value5" 
+                v-model="workDays" 
                 format="YYYY-MM-DD HH:mm" 
                 :hour-list="['09', '10', '11', '12', '2', '3', '4', '5']" 
                 :minute-list="['00', '15', '30', '45']" 
@@ -17,17 +17,17 @@
                 title="出导时间"
                 placeholder="请输入旅程时间"
             ></datetime>
-            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="value6" type="number"></x-input>
-            <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model="value7"></x-input>
+            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model.trim="vLength" type="number"></x-input>
+            <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
 
         <div class="desc-travel">
             <h3>行程介绍</h3>
-            <x-textarea :max="200" :rows="1" autosize name="description"></x-textarea>
+            <x-textarea :max="200" :rows="1" autosize name="description" v-model.trim="content"></x-textarea>
         </div>
         <div class="desc-myself">
             <h3>自我介绍</h3>
-            <x-textarea :max="200" :rows="1" autosize name="description"></x-textarea>
+            <x-textarea :max="200" :rows="1" autosize name="description" v-model.trim="intro"></x-textarea>
         </div>
 
         <!-- 按钮 -->
@@ -38,30 +38,26 @@
 </template>
 
 <script>
+var dtCache = window.localStorage
+var lineData = JSON.parse(dtCache.getItem('lineMes'))
+
 import { Tabbar, TabbarItem, Datetime, Group, XButton, XInput, XTextarea} from 'vux'
 export default {
     name: 'userCreate',
 
     data () {
         return {
-            config: vm.config,           // 配置
-            value1: '',                  // 线路名称
-            value2: '',                  // 景点名称        
-            value3: '',                  // 人数
-            value4: '',                  // 出导日历
-            value5: '',                  // 出导时间
-            value6: '',                  // 时长
-            value7: '',                  // 讲解分类
-            lineId: '',
-            viewName: '',                 // 景点名称 
-            maxCount: '',                 // 接待人数
-            workDays: '',                 // 接待的日期
-            workTime: '',                 // 可接待的时间
-            content:  '',               // 线路内容
-            vLength:  '',               // 预计浏览时间
-            intro:  '',                 // 自我介绍
-            lineTye: ''                   // 线路类型
-            
+            config: vm.config,                                                    // 配置
+            lineId: this.$route.query.lineId || '',                               // 线路id
+            viewName: this.$route.query.lineId? lineData.view_spot_name : '',     // 景点名称 
+            maxCount: this.$route.query.lineId? lineData.max_count : '',          // 接待人数
+            workDays: this.$route.query.lineId? lineData.work_date : '',          // 接待的日期
+            workTime: this.$route.query.lineId? lineData.work_time : '',          // 可接待的时间
+            content:  this.$route.query.lineId? lineData.view_line_content : '',  // 线路内容
+            vLength:  this.$route.query.lineId? lineData.visit_length : '',       // 预计浏览时间
+            intro:  this.$route.query.lineId? lineData.guide_introduce : '',      // 自我介绍
+            lineTye: this.$route.query.lineId? lineData.line_type : '',           // 线路类型
+            lineName: '',                                                         // 线路名称
         }
     },
 
@@ -86,39 +82,75 @@ export default {
 
         // 审核
         confirm() {
-            if(!this.name){
-                this.toast('请填写真实姓名')
+            if(!this.viewName){
+                this.toast('请填写景点名称')
                 return
             }
-            if(!this.idCard || (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.idCard))){
-                this.toast('请填写身份证号')
+            if(!this.maxCount){
+                this.toast('请填写接待人数')
                 return
             }
-            if(!this.tel || !(/^1(3|4|5|7|8)\d{9}$/.test(this.tel))){
-                this.toast('请填写手机号码')
+            if(!this.workDays){
+                this.toast('请填写出导日历')
                 return
             }
-            if(!this.authCode){
-                this.toast('请填写手机验证码')
+            if(!this.workTime){
+                this.toast('请填写可接待时间')
+                return
+            }
+            if(!this.content){
+                this.toast('请填写线路内容')
+                return
+            }
+            if(!this.vLength){
+                this.toast('请填写游览时长')
+                return
+            }
+            if(!this.intro){
+                this.toast('请填写自我介绍')
+                return
+            }
+            if(!this.lineTye){
+                this.toast('请填写自我介绍')
+                return
+            }
+            if(!this.intro){
+                this.toast('请填写讲解分类')
                 return
             }
             this.$http.post('/guide/line',{
-                lineId:'',
-                viewName: '',
-                maxCount: '',
-                workDays: '',
-                workTime: '',
-                content:  '',
-                vLength:  '',
-                intro:  '',
-                lineTye: ''
+                oid:asfasfqe1134,
+                lineId: this.lineId,
+                viewName: this.viewName,
+                maxCount: this.maxCount,
+                workDays: this.workDays,
+                workTime: this.workTime,
+                content:  this.content,
+                vLength: this.vLength,
+                intro:  this.intro,
+                lineTye: this.lineTye
             }).then((rst) => {
-                
+                if(rst.body.res_code === 200){
+                    this.$vux.toast.show({
+                        text: '新建线路成功',
+                        type: 'text',
+                        onHide () {
+                            this.$router.push('#/user/line')
+                        }
+                    })
+                }else{
+                    this.$vux.toast.show({
+                        text: rst.body.msg,
+                        type: 'text'
+                    })
+                }
             },(err) => {
-                
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
             })
         },
-
     }
 }
 </script>

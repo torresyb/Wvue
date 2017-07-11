@@ -1,20 +1,15 @@
 <template>
     <div id="userDetail" class="userDetail">
         <ul class="content-income">
-            <li class="border-bottom">
+            <li class="border-bottom" v-for="(item,index) in list">
                 <div class="item-right">
-                    <h3>赚了钱</h3><i>2017-07-06 19:30:26</i>
+                    <h3>{{item.log_name}}</h3><i>{{item.create_time}}</i>
                 </div>
                 <span>
-                    <i>-</i>100
-                </span>
-            </li>
-            <li class="border-bottom">
-                <div class="item-right">
-                    <h3>赚了钱</h3><i>2017-07-06 19:30:26</i>
-                </div>
-                <span>
-                    <i>-</i>100
+                    <i v-if="item.trade_type===2">-</i>
+                    <i v-else-if="item.trade_type===3">-</i>
+                    <i v-else class="on">+</i>
+                    {{item.amount}}
                 </span>
             </li>
         </ul>
@@ -28,16 +23,36 @@ export default {
 
     data () {
         return {
-            config: vm.config
+            config: vm.config,
+            list: [],
+            lastPage: false,
+            pageNo: 1
         }
     },
 
     created () {
         this.config.title('收支明细')
+        this.fetchData()
     },
 
     methods: {
-        
+        fetchData(){
+            this.$http.get(`/user/account/log?oid=asfasfqe1134&pageNo=${this.pageNo}`).then((rst) => {
+                if(rst.body && rst.body.data){
+                    this.list = this.list.concat(rst.body.data.list)
+                    this.lastPage = rst.body.data.lastPage
+                    this.pageNo += 1
+                }
+                if(!this.lastPage && this.list.length<=rst.body.data.totalRow){
+                    this.fetchData()
+                }
+            },(err) => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
+            })
+        }
     }
 }
 </script>
