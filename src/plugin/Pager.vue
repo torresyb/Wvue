@@ -59,9 +59,8 @@
 
 <script>
 import $ from 'zepto'
-import Ajax from '../components/Ajax'
-import Lazyload from '../components/Lazyload'
-import Filters from '../components/Filters.js'
+import Lazyload from '../plugin/Lazyload'
+import Filters from '../plugin/Filters.js'
 
 export default {
     name: 'Pager',
@@ -116,7 +115,7 @@ export default {
             Ajax.yFetch(
                 this.url,
                 $.extend(
-                    { page: this.cur, pageSize: this.pagesize || 20 },
+                    { page: this.cur, pageSize: this.pagesize || 10 },
                     this.data
                 ),
                 this.type || 'GET',

@@ -29,7 +29,7 @@ export default {
     },
 
     // 图片 origin
-    // imgOrigin: `${location.protocol}//img.yuanqj.cn`,
+    imgOrigin: 'http://127.0.0.1:6070',
 
     // // vux基础上封装toast
     // toast(mes){
