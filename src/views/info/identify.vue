@@ -1,6 +1,7 @@
 <template>
     <div id="identify" class="identify">
         <!-- 列表 -->
+        <img src="http://r.361web.net/lx/temp//201707/11/201707110003065781.jpg" alt="">
         <ul>
             <li class="border-bottom">
                 <span>真实姓名：</span>
@@ -39,7 +40,8 @@
             <div class="pic-id1 pic">
                 <i class="iconfont icon-plus_fuzhi"></i>
                 <p>请上传身份证正面</p>
-                <img :src="idCardShow1" alt="">
+                <!-- <img :src="idCardShow1" alt=""> -->
+                <img src="http://r.361web.net/lx/temp//201707/11/201707110003065781.jpg" alt="">
                 <input @change="upload1($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
             </div>
             <div class="pic-id2 pic">
