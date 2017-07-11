@@ -51,10 +51,6 @@ export default {
 </script>
 
 <style>
-html {
-	color: #333!important;
-	font-family: PingFangSC-Regular!important;
-}
 .bg-fff{
 	background-color: #fff;
 }
@@ -124,7 +120,7 @@ html {
 #app .vux-tab .vux-tab-item.vux-tab-selected,#app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,#app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i,#app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
 	color: #00ca9d!important;
 }
-#app .vux-tab-ink-bar{
+/*#app .vux-tab-ink-bar{
 	background-color: #00ca9d!important;
-}
+}*/
 </style>
