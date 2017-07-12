@@ -7,9 +7,9 @@
             <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="number"></x-input>
-            <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="value4" placeholder="请输入旅程日期"></datetime>
+            <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime>
             <datetime 
-                v-model="workDays" 
+                v-model="workTime" 
                 format="YYYY-MM-DD HH:mm" 
                 :hour-list="['09', '10', '11', '12', '2', '3', '4', '5']" 
                 :minute-list="['00', '15', '30', '45']" 

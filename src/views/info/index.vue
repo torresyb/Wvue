@@ -104,7 +104,10 @@ export default {
                 if(rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '头像保存成功',
-                        type: 'text'
+                        type: 'text',
+                        onHide() {
+                            this.fetchInfo()
+                        }
                     })
                 }
             },(err) => {
