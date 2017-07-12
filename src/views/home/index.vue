@@ -1,13 +1,14 @@
 <template>
     <div class="home">
         <div class="banner" @click="goInfo">
-            <div><img src="../../assets/images/auth.png" alt=""></div>
-            <p>艾子豪</p>
+            <div>
+                <img :src="headImg? headImg: require('../../assets/images/defaultPhoto.png')" alt="">
+            </div>
+            <p>{{info.real_name}}</p>
         </div>
         <group>
             <cell title = '我的订单' link="/order" is-link></cell>
             <cell title = '线路管理' link="/user/line" is-link></cell>
-            <!-- <cell title = '帮助支持' link="/user/support" is-link></cell> -->
             <cell title = '我的钱包' link="/user/money" is-link></cell>
         </group>
 
@@ -23,7 +24,9 @@ export default {
 
     data () {
         return {
-            config: vm.config,                      // 配置
+            config: vm.config,             // 配置
+            info: {},                      // 数据
+            headImg: ''                     // 头像
         }
     },
 
@@ -36,12 +39,27 @@ export default {
     
     created () {
         this.config.title('我的')
+        this.fetchInfo()
     },
 
     methods: {
         goInfo() {
             this.$router.push('/info')
+        },
+
+        fetchInfo() {
+            this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
+                this.info = rst.body.data
+                this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
+            },(err) => {
+                this.$vux.toast.show({
+                    type: 'text',
+                    text: err.body.msg
+                })
+            })
         }
+
+
     }
 }
 </script>

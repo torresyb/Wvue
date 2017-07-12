@@ -23,7 +23,7 @@ export default {
 	    userInfo: 'userInfo'
 	}),
 	beforeMount () {
-		// this.loginHandle()
+		this.loginHandle()
 	},
 	methods: {
 		...mapActions([
