@@ -101,7 +101,6 @@ export default {
         upload(event){
             if(!event.target.value) return
             this.uploadBase64(event.target.files[0],(rst)=>{
-                this.headImg = rst.body.prefix + rst.body.data.path.replace('temp/','')
                 this.save(rst.body.data.path)
             })
         },
@@ -110,6 +109,7 @@ export default {
         save(img) {
             this.$http.post('/user/setAvatar',{img: img}).then((rst) => {
                 if(rst.body.res_code === 200){
+                    this.headImg = rst.body.prefix + rst.body.data.path
                     this.$vux.toast.show({
                         text: '头像保存成功',
                         type: 'text'
