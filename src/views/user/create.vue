@@ -235,4 +235,6 @@ export default {
     left: -15px
 .userCreate .vux-x-textarea:before
     border: none
+// .userCreate .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .userCreate .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i,.userCreate  .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
+//     color: #fff
 </style>
