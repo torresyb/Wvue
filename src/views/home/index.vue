@@ -1,17 +1,19 @@
 <template>
     <div class="home">
+        <!-- banner -->
         <div class="banner" @click="goInfo">
             <div>
                 <img :src="headImg? headImg: require('../../assets/images/defaultPhoto.png')" alt="">
             </div>
-            <p>{{info.real_name}}</p>
+            <p>{{info && info.real_name || '导游'}}</p>
         </div>
+        <!-- 列表 -->
         <group>
             <cell title = '我的订单' link="/order" is-link></cell>
             <cell title = '线路管理' link="/user/line" is-link></cell>
             <cell title = '我的钱包' link="/user/money" is-link></cell>
         </group>
-
+        <!-- 公用底部 -->
         <wx-footer></wx-footer>
     </div>
 </template>
@@ -26,7 +28,7 @@ export default {
         return {
             config: vm.config,             // 配置
             info: {},                      // 数据
-            headImg: ''                     // 头像
+            headImg: ''                    // 头像
         }
     },
 
@@ -35,8 +37,7 @@ export default {
         Group,
         Cell
     },
-
-    
+ 
     created () {
         this.config.title('我的')
         this.fetchInfo()
@@ -49,8 +50,12 @@ export default {
 
         fetchInfo() {
             this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
-                this.info = rst.body.data
-                this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
+                if(rst && rst.body){
+                    this.info = rst.body.data
+                    if(rst.body.data && rst.body.data.resource_path && rst.body.prefix){
+                        this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
+                    }
+                }
             },(err) => {
                 this.$vux.toast.show({
                     type: 'text',
@@ -58,8 +63,6 @@ export default {
                 })
             })
         }
-
-
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <view-box ref="viewBox" body-padding-bottom="55px">
         <div class="lineList bg-gray">
             <sticky scrollBox="vux_view_box_body" :offset="46">
-                <tab :line-width=2 active-color='#04be02'>
+                <tab :line-width=2 active-color='#00ca9d' custom-bar-width="50px">
                     <tab-item selected @on-item-click = 'itemClickHandle'>
                         通过审核
                     </tab-item>

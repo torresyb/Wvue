@@ -20,7 +20,8 @@
             <datetime 
                 class="border-bottom"
                 title="生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：" 
-                v-model="birthday" 
+                v-model="birthday"
+                min-year= '1949'
                 placeholder="请输入生日日期"
             ></datetime>
             <li class="border-bottom">
@@ -130,7 +131,6 @@ export default {
                 }
             }, 1000)
         },
-
 
         // 上传图片(身份证正面)
         uploadBase641(upfile,callback){
@@ -335,7 +335,6 @@ export default {
             position: absolute
             left: 0
             top: 0
-            // background: red
         img 
             z-index: 1
             height: auto
@@ -356,7 +355,6 @@ export default {
             position: absolute
             left: 0
             top: 0
-            // background: red
         img 
             z-index: 1
             height: auto
@@ -379,7 +377,6 @@ export default {
         p 
             color: #999
             font-size: 12px
-
 button
     width: 202px
     height: 44px
@@ -401,5 +398,5 @@ button
     font-size: 14px
 .identify .weui-cell__ft
     text-align: left
-    padding-left: 13px
+    padding-left: 11px
 </style>

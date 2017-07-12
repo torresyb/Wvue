@@ -80,6 +80,14 @@ export default {
             console.log('change', value)
         },
 
+        // vux基础上封装toast
+        toast(mes){
+            this.$vux.toast.show({
+                text: mes,
+                type: 'text'
+            })
+        },
+
         // 审核
         confirm() {
             if(!this.viewName){

@@ -65,7 +65,12 @@ Vue.http.options.cache = true
 let access_token = document.cookie.match(/access_token=(\w+)(?=;)/) ? document.cookie.match(/access_token=(\w+)(?=;)/)[1] : ''
 Vue.http.interceptors.push((req, next) => {
     req.headers.set('token', access_token)
-    next()
+    // 判断授权重定向
+    next((rsts)=>{
+        if(parseInt(rsts.body.res_code) === 301 && rsts.body.url){
+            window.location.href = rsts.body.url
+        }
+    })
 })
 
 // 微信分享

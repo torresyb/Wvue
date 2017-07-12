@@ -12,8 +12,10 @@
         </div>
         <a :href="status ? 'javascript:;' : '#/info/identify'" class="desc-box border-bottom">
             <span>真实身份</span>
-            <p>{{['未认证','认证中','已认证'][+ status]}}</p>
+            <p v-if="status=4">认证中</p>
+            <p v-else>{{['未认证','已认证'][+ status]}}</p>
             <i class="iconfont icon-right"></i>
+            <!-- 0=未提交审核,1=审核通过,2=审核失败,3=暂停服务,4=审核中 -->
         </a>
         
         <!-- 按钮 -->

@@ -13,25 +13,24 @@
 <script>
 import './assets/css/common.css'
 import { mapGetters, mapActions } from 'vuex'
-// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 export default {
-	// components: {
-	// 	NprogressContainer
-	// },
 	computed: mapGetters({
 	    userInfo: 'userInfo'
 	}),
+
 	beforeMount () {
 		this.loginHandle()
 	},
+	
 	methods: {
 		...mapActions([
 			'setUser'
 		]),
+
 		loginHandle () {
 		    this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
-				if(rst.body.data.guide_status == 1){
+		    	if(rst && rst.body && rst.body.data && rst.body.data.guide_status === 1){
 					this.setUser({isLogin:true, adminInfo:rst.body.data.data})
 					this.$router.push('/')
 				}else{
@@ -41,7 +40,7 @@ export default {
 		    },(err) => {
 		      	this.setUser({isLogin:false, adminInfo:null})
 		      	this.$vux.toast.show({
-		      		type: 'warn',
+		      		type: 'text',
 		      		text: '服务端错误'
 		      	})
 		    })
