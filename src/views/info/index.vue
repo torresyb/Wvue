@@ -75,9 +75,18 @@ export default {
                 data.remotePath = '/agent'
                 data.filename = upfile.name
                 data.mimetype = upfile.type
+                this.$vux.loading.show({
+                 text: '头像上传中...'
+                })
                 this.$http.post('/upload/uploadFile',data).then((rst) => {
+                    this.$vux.loading.hide()
                     if(rst.body.res_code === 200){
                         callback(rst)
+                    }else{
+                        this.$vux.toast.show({
+                            text: '上传头像失败',
+                            type: 'text'
+                        })
                     }
                 },(err) => {
                     this.$vux.toast.show({

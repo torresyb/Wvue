@@ -160,7 +160,7 @@ export default {
         upload1(event){
             if(!event.target.value) return
             this.uploadBase641(event.target.files[0],(rst)=>{
-                this.idCardShow1 = rst.body.prefix + rst.body.data.path.replace('temp/','')
+                this.idCardShow1 = rst.body.prefix + rst.body.data.path
                 this.frontImg = rst.body.data.path
             })
         },
@@ -193,7 +193,7 @@ export default {
         upload2(event){
             if(!event.target.value) return
             this.uploadBase642(event.target.files[0],(rst)=>{
-                this.idCardShow2 = rst.body.prefix + rst.body.data.path.replace('temp/','')
+                this.idCardShow2 = rst.body.prefix + rst.body.data.path
                 this.backImg = rst.body.data.path
             })
         },
@@ -225,7 +225,7 @@ export default {
         upload3(event){
             if(!event.target.value) return
             this.uploadBase643(event.target.files[0],(rst)=>{
-                this.idCardShow3 = rst.body.prefix + rst.body.data.path.replace('temp/','')
+                this.idCardShow3 = rst.body.prefix + rst.body.data.path
                 this.guideCardImg = rst.body.data.path
             })
         },
