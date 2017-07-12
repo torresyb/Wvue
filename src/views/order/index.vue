@@ -36,22 +36,6 @@
                     </div>
                     <load-more :tip="正在加载"></load-more>
                 </div>
-                <!-- <div class="item" v-for='(item, index) in orderList'>
-                    <router-link :to="'/order/confrim?orderNum='+ item.order_num">
-                        <h3 class="title">{{item.view_line_content}}</h3>
-                        <div class="status">{{['待确认','已确认'][item.book_status - 1]}}</div>
-                        <div class="main">
-                            <div class="img">
-                                <img :src="item.resource_path ? (item.resource_path.indexOf('http')>-1 ? '' : imgOrigin) + item.resource_path : require('../../assets/images/defaultPhoto.png')" alt="">
-                            </div>
-                            <div class="desc">
-                                <h3>浏览时间：{{item.visit_date}}</h3>
-                                <p>游客人数：{{item.person_num}}人</p>
-                                <i>订单金额：￥{{item.amount}}</i>
-                            </div>
-                        </div>
-                    </router-link>
-                </div> -->
             </scroller>
 
             <div class="loadAll" ref="div"></div>
@@ -103,7 +87,6 @@ export default {
     },
     methods: {
         itemClickHandle (val){
-            console.log('tab:',val)
             this.status = val +1
             this.lastPage = false
             this.orderList = []
@@ -111,7 +94,6 @@ export default {
             this.fetchList()
         },
         onScrollBottom () {
-            console.log('滚动到底部')
             this.pageNo += 1
             this.fetchList()
         },
@@ -119,7 +101,7 @@ export default {
         fetchList() {
                 if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/order/list?oid=asfasfqe1134&pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`).then((rst) => {
+                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`).then((rst) => {
                     if(rst.body && rst.body.data){
                         this.orderList = this.orderList.concat(rst.body.data.list)
                         this.pageNo = rst.body.data.pageNumber
@@ -142,55 +124,12 @@ export default {
                     })
                 }) 
             }
-            
         }
-
     }
 }
 </script>
 
 <style scoped lang="sass">
-// .srcollBox
-//     padding: 0 10px
-//     .item
-//         padding: 10px 10px 10px 8px  
-//         border-radius: 5px
-//         font-size: 15px
-//         background: #fff
-//         margin-top: 20px
-//         .title
-//             width: 70%
-//             overflow: hidden
-//             text-overflow: ellipsis
-//             white-space: nowrap
-//             font-weight: 400
-//         .status
-//             text-align: right
-//             color: #00ca9d
-//         .main
-//             display: flex
-//             .img
-//                 width: 155px
-//                 height: 70px
-//                 margin-right: 22px
-//                 position: relative
-//                 overflow: hidden
-//                 img 
-//                     width: 100%
-//                     position: absolute
-//                     left: 0
-//                     top: 50%
-//                     transform: translateY(-50%)
-//             .desc
-//                 flex: 1
-//                 h3
-//                     font-size: 15px
-//                 p 
-//                     margin-top: 5px
-//                     color: #979797
-//                 i 
-//                     font-style: normal
-//                     color: #979797
 .loadAll
     text-align: center
     position: absolute

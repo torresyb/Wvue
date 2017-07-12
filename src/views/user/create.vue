@@ -8,6 +8,10 @@
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="number"></x-input>
             <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime>
+            <!-- <div class="workDays">
+                <span>出导日历</span>
+                <input type="text" placeholder="请选择旅程日期" v-model="workDays" class="workDays-input">
+            </div> -->
             <datetime 
                 v-model="workTime" 
                 format="YYYY-MM-DD HH:mm" 
@@ -34,6 +38,10 @@
         <tabbar>
             <tabbar-item @click.native="confirm"><span slot="label">提交审核</span></tabbar-item>
         </tabbar>
+
+        <!-- <div class="pop-mask">
+            <div class="pop-box"></div>
+        </div> -->
     </div>
 </template>
 
@@ -127,7 +135,6 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
-                oid:asfasfqe1134,
                 lineId: this.lineId,
                 viewName: this.viewName,
                 maxCount: this.maxCount,
@@ -169,7 +176,7 @@ export default {
         height: 125px
         background: url(../../assets/images/banner-create.jpg) center center no-repeat
         background-size: cover
-    .desc-travel,.desc-myself
+    .desc-travel,.desc-myself,.workDays
         padding: 0 15px
     h3
         font-size: 13px
@@ -186,6 +193,32 @@ export default {
         outline: none
     .border-bottom
         margin-bottom: 5px
+    .workDays-input
+        display: inline-block
+    .workDays
+        display: flex
+        height: 45px
+        line-height: 45px
+        span
+            width: 100px
+        input 
+            flex: 1
+            border: none
+            text-align: right
+    .pop-mask
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        background: #000
+        opacity: .5
+        z-index: 1000
+        .pop 
+            width: 90%
+            height: 80%
+            margin: 10% auto
+            background: #fff
 </style>
 <style lang="sass">
 .userCreate .vux-tabbar-simple .weui-tabbar__label

@@ -37,13 +37,13 @@ export default {
 
     methods: {
         fetchData(){
-            this.$http.get(`/user/account/log?oid=asfasfqe1134&pageNo=${this.pageNo}`).then((rst) => {
+            this.$http.get(`/user/account/log?pageNo=${this.pageNo}`).then((rst) => {
                 if(rst.body && rst.body.data){
                     this.list = this.list.concat(rst.body.data.list)
                     this.lastPage = rst.body.data.lastPage
                     this.pageNo += 1
                 }
-                if(!this.lastPage && this.list.length<=rst.body.data.totalRow){
+                if(!this.lastPage && this.list.length <= rst.body.data.totalRow){
                     this.fetchData()
                 }
             },(err) => {
@@ -58,36 +58,35 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.userDetail ul
-        li 
-            padding: 10px .75rem 5px
-            display: flex
-            .item-right
-                flex: 1
-                h3
-                    font-size: 14px
-                    color: #333
-                    font-weight: 300
-                    line-height: 1.05rem
-                    height: 1.05rem
-                i 
-                    font-size: 12px
-                    color: #979797
-                    height: .85rem
-                    line-height: .85rem
-                    margin-bottom: .6rem
-                    font-style: normal
-            span 
-                margin-top: 12px
-                font-size: 14px
-                display: inline-block
-                height: 1.25rem
-                line-height: 1.25rem
-                width: 50px
-                text-align: right
-                i 
-                    vertical-align: 2%
-                    margin-right: .05rem
-            .on
-                color: #F6365B
+.userDetail ul li 
+    padding: 10px .75rem 5px
+    display: flex
+    .item-right
+        flex: 1
+        h3
+            font-size: 14px
+            color: #333
+            font-weight: 300
+            line-height: 1.05rem
+            height: 1.05rem
+        i 
+            font-size: 12px
+            color: #979797
+            height: .85rem
+            line-height: .85rem
+            margin-bottom: .6rem
+            font-style: normal
+    span 
+        margin-top: 12px
+        font-size: 14px
+        display: inline-block
+        height: 1.25rem
+        line-height: 1.25rem
+        width: 50px
+        text-align: right
+        i 
+            vertical-align: 2%
+            margin-right: .05rem
+    .on
+        color: #F6365B
 </style>

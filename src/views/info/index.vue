@@ -1,7 +1,7 @@
 <template>
     <div id="info" class="info">
         <!-- banner -->
-        <router-link to="#/info/rules" class="banner"></router-link>
+        <router-link to="/info/rules" class="banner"></router-link>
 
         <!-- 列表 -->
         <div class="head-box border-bottom">
@@ -52,7 +52,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/guide/user/info?oid=asfasfqe1134').then((rst) => {
+            this.$http.get('/guide/user/info').then((rst) => {
                 this.status = rst.body && rst.body.data && rst.body.data.guide_status
                 if(rst.body && rst.body.data && rst.body.data.resource_path){
                     this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
@@ -71,7 +71,6 @@ export default {
             reader.onload = (evt)=>{
                 var imgData = evt.target.result
                 var data = {}
-                data.oid = 'asfasfqe1134'
                 data.img = imgData
                 data.remotePath = '/agent'
                 data.filename = upfile.name
@@ -93,7 +92,7 @@ export default {
         upload(event){
             if(!event.target.value) return
             this.uploadBase64(event.target.files[0],(rst)=>{
-                this.headImg = rst.body.prefix + rst.body.data.path
+                this.headImg = rst.body.prefix + rst.body.data.path.replace('temp/','')
                 this.save(rst.body.data.path)
             })
         },
@@ -104,10 +103,7 @@ export default {
                 if(rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '头像保存成功',
-                        type: 'text',
-                        onHide() {
-                            this.fetchInfo()
-                        }
+                        type: 'text'
                     })
                 }
             },(err) => {
@@ -172,5 +168,5 @@ export default {
     color: #fff 
     font-size: 14px
 .info .vux-tab .vux-tab-item.vux-tab-selected, #app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, #app .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .info .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
-    color: #fff!important
+    color: #fff
 </style>

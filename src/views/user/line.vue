@@ -178,38 +178,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/line/lines?oid=asfasfqe1134&pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`).then((rst) => {
-                    rst.body = {
-                        "msg": "success",
-                        "data": {
-                            "totalRow": 1,//总条数
-                            "pageNumber": 1,//当前第几页
-                            "lastPage": true,//是否最后一页
-                            "firstPage": true,//是否为最后一页
-                            "totalPage": 1,//总页数
-                            "pageSize": 10,//每页行数
-                            "list": [
-                                {
-                                    "guide_introduce": "专业导游20年",//导游介绍
-                                    "work_date": "2017-07-09,2017-07-10,2017-07-11,2017-07-12",//工作天
-                                    "create_time": "2017-07-10 01:02:10",//线路创建时间
-                                    "line_status": 0,//路线状态:0=待审核,1=审核通过,2=审核失败,3=下线,4=已删除
-                                    "max_count": 50,//单次接待人数上限
-                                    "update_time": "2017-07-10 01:02:10",//线路上次更新时间
-                                    "view_line_content": "西线可以看到三宫六院",//线路介绍
-                                    "line_type": "西线",//线路类型
-                                    "resource_path": null,//景点默认图处相对路径
-                                    "view_spot_id": null,//景点ID
-                                    "view_spot_name": "故宫",//景点名称
-                                    "id": 1,//线路ID
-                                    "work_time": "09,18",//导游工作时间
-                                    "visit_length": 180 //浏览时长(分钟)
-                                }
-                            ]
-                        },
-                        "prefix": "http://127.0.0.1:6070/",
-                        "res_code": 200
-                    }
+                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`).then((rst) => {
                     if(rst.body && rst.body.data){
                         this.lineList = this.lineList.concat(rst.body.data.list)
                         this.pageNo = rst.body.data.pageNumber
@@ -233,7 +202,6 @@ export default {
                     })
                 }) 
             }
-            
         }
     }
 }

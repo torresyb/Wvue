@@ -138,14 +138,17 @@ export default {
             reader.onload = (evt)=>{
                 var imgData = evt.target.result
                 var data = {}
-                data.oid = 'asfasfqe1134'
                 data.img = imgData
                 data.remotePath = '/agent'
                 data.filename = upfile.name
                 data.mimetype = upfile.type
+                this.$vux.loading.show({
+                    text: '图片上传中...'
+                })
                 this.$http.post('/upload/uploadFile',data).then((rst) => {
                     if(rst.body.res_code === 200){
                         this.toast('图片上传成功')
+                        this.$vux.loading.hide()
                         callback(rst)
                     }
                 },(err) => {
@@ -157,7 +160,7 @@ export default {
         upload1(event){
             if(!event.target.value) return
             this.uploadBase641(event.target.files[0],(rst)=>{
-                this.idCardShow1 = rst.body.prefix + rst.body.data.path
+                this.idCardShow1 = rst.body.prefix + rst.body.data.path.replace('temp/','')
                 this.frontImg = rst.body.data.path
             })
         },
@@ -168,14 +171,17 @@ export default {
             reader.onload = (evt)=>{
                 var imgData = evt.target.result
                 var data = {}
-                data.oid = 'asfasfqe1134'
                 data.img = imgData
                 data.remotePath = '/agent'
                 data.filename = upfile.name
                 data.mimetype = upfile.type
+                this.$vux.loading.show({
+                    text: '图片上传中...'
+                })
                 this.$http.post('/upload/uploadFile',data).then((rst) => {
                     if(rst.body.res_code === 200){
                         this.toast('图片上传成功')
+                        this.$vux.loading.hide()
                         callback(rst)
                     }
                 },(err) => {
@@ -187,7 +193,7 @@ export default {
         upload2(event){
             if(!event.target.value) return
             this.uploadBase642(event.target.files[0],(rst)=>{
-                this.idCardShow2 = rst.body.prefix + rst.body.data.path
+                this.idCardShow2 = rst.body.prefix + rst.body.data.path.replace('temp/','')
                 this.backImg = rst.body.data.path
             })
         },
@@ -197,14 +203,17 @@ export default {
             reader.onload = (evt)=>{
                 var imgData = evt.target.result
                 var data = {}
-                data.oid = 'asfasfqe1134'
                 data.img = imgData
                 data.remotePath = '/agent'
                 data.filename = upfile.name
                 data.mimetype = upfile.type
+                this.$vux.loading.show({
+                    text: '图片上传中...'
+                })
                 this.$http.post('/upload/uploadFile',data).then((rst) => {
                     if(rst.body.res_code === 200){
                         this.toast('图片上传成功')
+                        this.$vux.loading.hide()
                         callback(rst)
                     }
                 },(err) => {
@@ -216,7 +225,7 @@ export default {
         upload3(event){
             if(!event.target.value) return
             this.uploadBase643(event.target.files[0],(rst)=>{
-                this.idCardShow3 = rst.body.prefix + rst.body.data.path
+                this.idCardShow3 = rst.body.prefix + rst.body.data.path.replace('temp/','')
                 this.guideCardImg = rst.body.data.path
             })
         },
@@ -251,8 +260,10 @@ export default {
                 this.toast('请上传导游证照片')
                 return
             }
+            this.$vux.loading.show({
+                text: '提交中...'
+            })
             this.$http.post('/guide/user/toReview',{
-                oid: 'asfasfqe1134',
                 cardNum: this.idCard,
                 phone: this.tel,
                 birthday: this.birthday,
@@ -263,8 +274,10 @@ export default {
                 realName: this.name,
                 code: this.authCode
             }).then((rst) => {
+                this.$vux.loading.hide()
                 if(rst.body.res_code === 200){
                     this.toast('身份信息已提交审核，请稍候查看')
+                    this.$router.push('/info')
                 }else{
                     this.toast(rst.body.msg)
                 }

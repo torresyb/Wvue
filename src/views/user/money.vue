@@ -38,7 +38,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/user/account/info?oid=asfasfqe1134').then((rst) => {
+            this.$http.get('/user/account/info').then((rst) => {
                 this.total = rst.body && rst.body.data && rst.body.data.total_amount
                 this.deposit = rst.body && rst.body.data && rst.body.data.deposit_amount
             },(err) => {

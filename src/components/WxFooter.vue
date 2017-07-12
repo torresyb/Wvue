@@ -39,7 +39,11 @@ export default {
 	padding: 0
 .foot-bar .weui-tabbar__icon > sup
 	top: 0
-.foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label p
-	// color: #03ca9d
-	color: red
+.foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label p
+	color: #03ca9d
+.foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
+	color: #03ca9d
+.foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,.foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
+	color: #03ca9d
+.foot-bar.weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,.foot-bar  .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
 </style>
