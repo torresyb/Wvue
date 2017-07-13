@@ -9,6 +9,7 @@
             <img :src="headImg? headImg: require('../../assets/images/defaultPhoto.png')" alt="">
             <i class="iconfont icon-right"></i>
             <input @change="upload($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
+            <!-- <input type="file" @change="uploadFile" id="bUploadBtn" accept="image/*"> -->
         </div>
         <a :href="status ? 'javascript:;' : '#/info/identify'" class="desc-box border-bottom">
             <span>真实身份</span>
@@ -32,7 +33,6 @@
 
 <script>
 import { Tabbar, TabbarItem} from 'vux'
-
 export default {
     name: 'info',
 
@@ -71,45 +71,72 @@ export default {
         },
         
         // 上传头像
-        uploadBase64(upfile,callback){
-            var reader = new FileReader()
-            reader.onload = (evt)=>{
-                var imgData = evt.target.result
-                var data = {}
-                data.img = imgData
-                data.remotePath = '/agent'
-                data.filename = upfile.name
-                data.mimetype = upfile.type
-                this.$vux.loading.show({
-                 text: '头像上传中...'
-                })
-                this.$http.post('/upload/uploadFile',data).then((rst) => {
-                    this.$vux.loading.hide()
-                    if(rst.body.res_code === 200){
-                        callback(rst)
-                    }else{
-                        this.$vux.toast.show({
-                            // text: '上传头像失败',
-                            text: rst.body.msg,
-                            type: 'text'
-                        })
-                    }
-                },(err) => {
-                    this.$vux.toast.show({
-                        text: err.body.msg,
-                        type: 'text'
-                    })
-                })
-            }
-            reader.readAsDataURL(upfile)
-        },
+        // uploadBase64(upfile,callback){
+        //     var reader = new FileReader()
+        //     reader.onload = (evt)=>{
+        //         var imgData = evt.target.result
+        //         var data = {}
+        //         data.img = imgData
+        //         data.remotePath = '/agent'
+        //         data.filename = upfile.name
+        //         data.mimetype = upfile.type
+        //         this.$vux.loading.show({
+        //          text: '头像上传中...'
+        //         })
+        //         this.$http.post('/upload/uploadFile',data).then((rst) => {
+        //             this.$vux.loading.hide()
+        //             if(rst.body.res_code === 200){
+        //                 callback(rst)
+        //             }else{
+        //                 this.$vux.toast.show({
+        //                     // text: '上传头像失败',
+        //                     text: rst.body.msg,
+        //                     type: 'text'
+        //                 })
+        //             }
+        //         },(err) => {
+        //             this.$vux.toast.show({
+        //                 text: err.body.msg,
+        //                 type: 'text'
+        //             })
+        //         })
+        //     }
+        //     reader.readAsDataURL(upfile)
+        // },
+
+        // upload(event){
+        //     if(!event.target.value) return
+        //     this.uploadBase64(event.target.files[0],(rst)=>{
+        //         this.save(rst.body.data.path)
+        //     })
+        // },
 
         upload(event){
-            if(!event.target.value) return
-            this.uploadBase64(event.target.files[0],(rst)=>{
-                this.save(rst.body.data.path)
+            var formData = new FormData()
+                formData.append("file", event.target.files[0])
+                formData.append("remotePath", '/agent')
+            this.$vux.loading.show({
+                text: '头像上传中...'
+            })
+            this.$http.post('/upload/uploadFile',formData).then((rst) => {
+                this.$vux.loading.hide()
+                if(rst.body.res_code === 200){
+                    this.save(rst.body.data.path)
+                }else{
+                    this.$vux.toast.show({
+                        text: rst.body.msg,
+                        type: 'text'
+                    })
+                }
+            },(err) => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
             })
         },
+
+
 
         // 保存头像
         save(img) {
