@@ -150,6 +150,12 @@ export default {
                         this.toast('图片上传成功')
                         this.$vux.loading.hide()
                         callback(rst)
+                    }else{
+                        this.$vux.toast.show({
+                            // text: '上传头像失败',
+                            text: rst.body.msg,
+                            type: 'text'
+                        })
                     }
                 },(err) => {
                     
@@ -183,6 +189,12 @@ export default {
                         this.toast('图片上传成功')
                         this.$vux.loading.hide()
                         callback(rst)
+                    }else{
+                        this.$vux.toast.show({
+                            // text: '上传头像失败',
+                            text: rst.body.msg,
+                            type: 'text'
+                        })
                     }
                 },(err) => {
                     
@@ -215,6 +227,12 @@ export default {
                         this.toast('图片上传成功')
                         this.$vux.loading.hide()
                         callback(rst)
+                    }else{
+                        this.$vux.toast.show({
+                            // text: '上传头像失败',
+                            text: rst.body.msg,
+                            type: 'text'
+                        })
                     }
                 },(err) => {
                     this.toast(err.body.msg)

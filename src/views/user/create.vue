@@ -150,7 +150,8 @@ export default {
                         text: '新建线路成功',
                         type: 'text',
                         onHide () {
-                            this.$router.push('#/user/line')
+                            // this.$router.push('#/user/line')
+                            window.location.href = '#/user/line'
                         }
                     })
                 }

@@ -89,7 +89,8 @@ export default {
                         callback(rst)
                     }else{
                         this.$vux.toast.show({
-                            text: '上传头像失败',
+                            // text: '上传头像失败',
+                            text: rst.body.msg,
                             type: 'text'
                         })
                     }
