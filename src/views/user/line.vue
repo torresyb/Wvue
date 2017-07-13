@@ -46,7 +46,9 @@
 
             <div class="loadAll" ref="div"></div>
             <!-- <load-more :show-loading="false" :tip="暂无数据" background-color="#fbf9fe"></load-more> -->
-
+            
+            <!-- 新建按钮 -->
+            <i class="iconfont icon-plus_fuzhi1" @click="create()"></i>
             <!-- 公用底部 -->
             <wx-footer></wx-footer>
         </div>
@@ -170,9 +172,13 @@ export default {
         },
         // 修改路线
         edit(item){
-            console.log('item:',item)
             dtCache.setItem('lineMes',JSON.stringify(item))
             this.$router.push('/user/create?lineId='+ item.id)
+        },
+
+        // 新建线路
+        create() {
+            this.$router.push('/user/create')
         },
 
         fetchList() {
@@ -217,6 +223,12 @@ export default {
     font-size: 12px
     color: #979797
     width: 100%
+.icon-plus_fuzhi1
+    font-size: 50px
+    color: #03ca9d
+    position: absolute
+    bottom: 80px
+    right: 10px
 </style>
 <style lang="sass">
 .lineList .weui-media-box__hd

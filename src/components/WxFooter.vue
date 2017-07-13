@@ -46,4 +46,5 @@ export default {
 .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,.foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
 	color: #03ca9d
 .foot-bar.weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,.foot-bar  .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i, .foot-bar .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
+	color: #03ca9d
 </style>

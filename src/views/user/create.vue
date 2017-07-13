@@ -57,14 +57,14 @@ export default {
         return {
             config: vm.config,                                                    // 配置
             lineId: this.$route.query.lineId || '',                               // 线路id
-            viewName: this.$route.query.lineId? lineData.view_spot_name : '',     // 景点名称 
-            maxCount: this.$route.query.lineId? lineData.max_count : '',          // 接待人数
-            workDays: this.$route.query.lineId? lineData.work_date : '',          // 接待的日期
-            workTime: this.$route.query.lineId? lineData.work_time : '',          // 可接待的时间
-            content:  this.$route.query.lineId? lineData.view_line_content : '',  // 线路内容
-            vLength:  this.$route.query.lineId? lineData.visit_length : '',       // 预计浏览时间
-            intro:  this.$route.query.lineId? lineData.guide_introduce : '',      // 自我介绍
-            lineTye: this.$route.query.lineId? lineData.line_type : '',           // 线路类型
+            viewName: this.$route.query.lineId ? lineData.view_spot_name : '',     // 景点名称 
+            maxCount: this.$route.query.lineId ? lineData.max_count : '',          // 接待人数
+            workDays: this.$route.query.lineId ? lineData.work_date : '',          // 接待的日期
+            workTime: this.$route.query.lineId ? lineData.work_time : '',          // 可接待的时间
+            content:  this.$route.query.lineId ? lineData.view_line_content : '',  // 线路内容
+            vLength:  this.$route.query.lineId ? lineData.visit_length : '',       // 预计浏览时间
+            intro:  this.$route.query.lineId ? lineData.guide_introduce : '',      // 自我介绍
+            lineTye: this.$route.query.lineId ? lineData.line_type : '',           // 线路类型
             lineName: '',                                                         // 线路名称
         }
     },
@@ -152,11 +152,6 @@ export default {
                         onHide () {
                             this.$router.push('#/user/line')
                         }
-                    })
-                }else{
-                    this.$vux.toast.show({
-                        text: rst.body.msg,
-                        type: 'text'
                     })
                 }
             },(err) => {

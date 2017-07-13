@@ -18,6 +18,7 @@ let config = [
     '/info/index',                  // 完善导游信息-首页
     '/info/rules',                  // 完善导游信息-细则
     '/info/identify',               // 完善导游信息-审核页
+    '/info/detail',                 // 个人信息详情
 
     // 订单相关
     '/order/index',                 // 订单列表(已确认、未确认)

@@ -7,6 +7,16 @@
                 <div class="header-main-top">
                     <span>{{['待确认','已确认'][init.book_status - 1]}}</span>
                     <i>倒计时：10：00</i>
+                    <!-- <count-down 
+                        v-on:start_callback="countDownS_cb(1)" 
+                        v-on:end_callback="countDownE_cb(1)" 
+                        :startTime="1481450110" 
+                        :endTime="1481450115"  
+                        :dayTxt="'天'" 
+                        :hourTxt="'小时'" 
+                        :minutesTxt="'分钟'" 
+                        :secondsTxt="'秒'"
+                    ></count-down> -->
                 </div>
                 <p>导游正在查看您的订单信息，核实没问题后，接受订单即刻出发旅行</p>
             </div>
@@ -48,6 +58,7 @@
 
 <script>
 import { Tabbar, TabbarItem} from 'vux'
+import CountDown from 'vue2-countdown'
 export default {
     name: 'confirm',
 
@@ -62,6 +73,7 @@ export default {
     components: {
         Tabbar,
         TabbarItem,
+        CountDown
     },
 
     created () {
@@ -80,6 +92,13 @@ export default {
                     type: 'text'
                 })
             })
+        },
+
+        countDownS_cb: function (x) {
+            console.log(x)
+        },
+        countDownE_cb: function (x) {
+            console.log(x)
         },
 
         // 确认订单

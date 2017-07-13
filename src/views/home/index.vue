@@ -12,6 +12,7 @@
             <cell title = '我的订单' link="/order" is-link></cell>
             <cell title = '线路管理' link="/user/line" is-link></cell>
             <cell title = '我的钱包' link="/user/money" is-link></cell>
+            <cell title = '导游认证' link="/info" is-link></cell>
         </group>
         <!-- 公用底部 -->
         <wx-footer></wx-footer>
@@ -45,7 +46,14 @@ export default {
 
     methods: {
         goInfo() {
-            this.$router.push('/info')
+            if(this.info && this.info.guide_status === 1){
+                this.$router.push('/info/detail')
+            }else{
+                this.$vux.toast.show({
+                    text: '请先认证',
+                    type: 'text'
+                })
+            }
         },
 
         fetchInfo() {

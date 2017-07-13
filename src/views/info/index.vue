@@ -17,6 +17,11 @@
             <i class="iconfont icon-right"></i>
             <!-- 0=未提交审核,1=审核通过,2=审核失败,3=暂停服务,4=审核中 -->
         </a>
+        <a v-if="status==1" href="#/info/detail" class="desc-box border-bottom">
+            <span>个人信息</span>
+            <p>查看详情</p>
+            <i class="iconfont icon-right"></i>
+        </a>
         
         <!-- 按钮 -->
         <tabbar>
