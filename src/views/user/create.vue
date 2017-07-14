@@ -10,7 +10,7 @@
             <!-- <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime> -->
             <div class="workDays">
                 <span>出导日历</span>
-                <input type="text" placeholder="请选择旅程日期" v-model="workDays" class="workDays-input" @click="showDatePop=true">
+                <input type="text" placeholder="请选择旅程日期" class="workDays-input" @click="showDatePop=true">
             </div>
             <datetime 
                 v-model="workTime" 
@@ -40,29 +40,27 @@
         </tabbar>
 
         <div v-if="showDatePop" class="pop-mask" @click.self="showDatePop=false">
-            <!-- <div class="pop-box"> -->
-                <div class="ui-datepicker-wrapper">
-                    <div class="ui-datepicker-header">
-                        <a href="javaScript:;" class="ui-datepicker-btn ui-datepicker-prev-btn" @click.stop="edit()">&lt;</a>
-                        <a href="javaScript:;" class="ui-datepicker-btn ui-datepicker-next-btn" @click.stop="edit(1)">&gt;</a>
-                        <span class="ui-datepicker-curr-month">{{date}}</span>
-                    </div>
-                    <div class="ui-datepicker-body">
-                        <div class="ui-datepicker-body-header">
-                            <span v-for="(item,index) in weekList">{{item}}</span>
-                        </div>
-                        <div class="ui-datepicker-body-days">
-                            <span v-for="(item,index) in monthData" @click="choose(item)">{{item}}</span>
-                        </div>
-                    </div>
-                </div> 
-                <div class="work-days">
-                    <p>已选择日期：</p>
-                    <span v-for="(item,index) in workDatess" @click="delItem(item,index)">
-                        {{item}}<i class="iconfont icon-icon-test1"></i>
-                    </span>
+            <div class="work-days">
+                <p>已选择日期：</p>
+                <span v-for="(item,index) in workDatess" @click="delItem(item,index)">
+                    {{item}}<i class="iconfont icon-icon-test1"></i>
+                </span>
+            </div>
+            <div class="ui-datepicker-wrapper">
+                <div class="ui-datepicker-header">
+                    <a href="javaScript:;" class="ui-datepicker-btn ui-datepicker-prev-btn" @click.stop="edit()">&lt;</a>
+                    <a href="javaScript:;" class="ui-datepicker-btn ui-datepicker-next-btn" @click.stop="edit(1)">&gt;</a>
+                    <span class="ui-datepicker-curr-month">{{date}}</span>
                 </div>
-            <!-- </div> -->
+                <div class="ui-datepicker-body">
+                    <div class="ui-datepicker-body-header">
+                        <span v-for="(item,index) in weekList">{{item}}</span>
+                    </div>
+                    <div class="ui-datepicker-body-days">
+                        <span v-for="(item,index) in monthData" @click="choose(item)">{{item}}</span>
+                    </div>
+                </div>
+            </div> 
         </div>
     </div>
 </template>
@@ -380,11 +378,12 @@ export default {
     background: #fff
     box-shadow: 2px 2px 8px 2px rgba(128,128,128,.3)
     text-align: center
-    position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%,0%)
-    z-index: 1
+    margin: 0 auto
+    // position: absolute
+    // top: 50%
+    // left: 50%
+    // transform: translate(-50%,0%)
+    // z-index: 1
     .ui-datepicker-header
         padding: 0 20px
         height: 50px
@@ -415,6 +414,7 @@ export default {
             background: #fff
             float: left
 .work-days
+    margin-bottom: 10px
     span
         display: inline-block
         width: 23%
