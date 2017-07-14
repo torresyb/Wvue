@@ -18,16 +18,16 @@
                 <input type="text" placeholder="请输入证件号" v-model.trim="idCard" maxlength="18">
             </li>
             <datetime 
-                class="border-bottom"
-                title="生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：" 
-                v-model="birthday"
-                min-year= '1949'
-                placeholder="请输入生日日期"
+                class = "border-bottom"
+                title = "生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：" 
+                v-model = "birthday"
+                :min-year = 1949
+                placeholder = "请输入生日日期"
             ></datetime>
             <li class="border-bottom">
                 <span>联系方式：</span>
                 <input type="tel" placeholder="请输入手机号" v-model.trim="tel" maxlength="11">
-                <i ref="i" @click="sendCode" :class="{on:codeText!=('发送验证码' || '重新获取')}">{{codeText}}</i>
+                <i ref="i" @click="sendCode" :class="{on: codeText == '发送验证码', on2: codeText == '重新获取'}">{{codeText}}</i>
             </li>
             <li class="border-bottom">
                 <span>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</span>
@@ -40,21 +40,21 @@
             <div class="pic-id1 pic">
                 <i class="iconfont icon-plus_fuzhi"></i>
                 <p>请上传身份证正面</p>
-                <img :src="idCardShow1" alt="">
-                <input @change="upload1($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
+                <img v-if="idCardShow1" :src="idCardShow1" alt="">
+                <input @change="upload($event)" class="" type="file" accept="image/*" id="bUploadBtn1" ref="input">
             </div>
             <div class="pic-id2 pic">
                 <i class="iconfont icon-plus_fuzhi"></i>
                 <p>请上传身份证正面</p>
-                <img :src="idCardShow2" alt="">
-                <input @change="upload2($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
+                <img v-if="idCardShow2" :src="idCardShow2" alt="">
+                <input @change="upload($event)" class="" type="file" accept="image/*" id="bUploadBtn2" ref="input">
             </div>
         </div>
         <div class="pic-id3 pic">
             <i class="iconfont icon-plus_fuzhi"></i>
             <p>请上传导游证正面</p>
-            <img :src="idCardShow3" alt="">
-            <input @change="upload3($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
+            <img v-if="idCardShow3" :src="idCardShow3" alt="">
+            <input @change="upload($event)" class="" type="file" accept="image/*" id="bUploadBtn3" ref="input">
         </div>
 
         <button type="button" @click="confirm">提交审核</button>
@@ -112,8 +112,15 @@ export default {
 
             if(!this.isClicked){
                 this.isClicked = true
-                this.$http.get(`/user/code?mobile=${this.tel}`).then((rst) => {
+                this.$http.get(`/user/code?mobile=${this.tel}&oid=test1234`)
+                .then(rst => {
                     this.countDown()
+                })
+                .catch(err => {
+                    this.$vux.toast.show({
+                        text: err.body.msg,
+                        type: 'text'
+                    })
                 })
             }
         },
@@ -133,118 +140,82 @@ export default {
         },
 
         // 上传图片(身份证正面)
-        uploadBase641(upfile,callback){
-            var reader = new FileReader()
-            reader.onload = (evt)=>{
-                var imgData = evt.target.result
-                var data = {}
-                data.img = imgData
-                data.remotePath = '/agent'
-                data.filename = upfile.name
-                data.mimetype = upfile.type
-                this.$vux.loading.show({
-                    text: '图片上传中...'
-                })
-                this.$http.post('/upload/uploadFile',data).then((rst) => {
-                    if(rst.body.res_code === 200){
-                        this.toast('图片上传成功')
-                        this.$vux.loading.hide()
-                        callback(rst)
-                    }else{
-                        this.$vux.toast.show({
-                            // text: '上传头像失败',
-                            text: rst.body.msg,
-                            type: 'text'
-                        })
-                    }
-                },(err) => {
+        // uploadBase64(upfile,callback){
+        //     var reader = new FileReader()
+        //     reader.onload = (evt)=>{
+        //         var imgData = evt.target.result
+        //         var data = {}
+        //         data.oid= 'test1234'
+        //         data.img = imgData
+        //         data.remotePath = '/agent'
+        //         data.filename = upfile.name
+        //         data.mimetype = upfile.type
+        //         this.$vux.loading.show({
+        //             text: '图片上传中...'
+        //         })
+        //         this.$http.post('/upload/uploadFile',data).then((rst) => {
+        //             if(rst.body.res_code === 200){
+        //                 this.toast('图片上传成功')
+        //                 this.$vux.loading.hide()
+        //                 callback(rst)
+        //             }else{
+        //                 this.$vux.toast.show({
+        //                     // text: '上传头像失败',
+        //                     text: rst.body.msg,
+        //                     type: 'text'
+        //                 })
+        //             }
+        //         },(err) => {
                     
-                })
-            }
-            reader.readAsDataURL(upfile)
-        },
-        upload1(event){
-            if(!event.target.value) return
-            this.uploadBase641(event.target.files[0],(rst)=>{
-                this.idCardShow1 = rst.body.prefix + rst.body.data.path
-                this.frontImg = rst.body.data.path
-            })
-        },
+        //         })
+        //     }
+        //     reader.readAsDataURL(upfile)
+        // },
+        // upload(event){
+        //     if(!event.target.value) return
+        //     this.uploadBase64(event.target.files[0],(rst)=>{
+        //         this.idCardShow1 = rst.body.prefix + rst.body.data.path
+        //         this.frontImg = rst.body.data.path
+        //     })
+        // },
 
-        // 上传图片(身份证反面)
-        uploadBase642(upfile,callback){
-            var reader = new FileReader()
-            reader.onload = (evt)=>{
-                var imgData = evt.target.result
-                var data = {}
-                data.img = imgData
-                data.remotePath = '/agent'
-                data.filename = upfile.name
-                data.mimetype = upfile.type
-                this.$vux.loading.show({
-                    text: '图片上传中...'
-                })
-                this.$http.post('/upload/uploadFile',data).then((rst) => {
-                    if(rst.body.res_code === 200){
-                        this.toast('图片上传成功')
-                        this.$vux.loading.hide()
-                        callback(rst)
-                    }else{
-                        this.$vux.toast.show({
-                            // text: '上传头像失败',
-                            text: rst.body.msg,
-                            type: 'text'
-                        })
-                    }
-                },(err) => {
-                    
-                })
-            }
-            reader.readAsDataURL(upfile)
-        },
-        upload2(event){
-            if(!event.target.value) return
-            this.uploadBase642(event.target.files[0],(rst)=>{
-                this.idCardShow2 = rst.body.prefix + rst.body.data.path
-                this.backImg = rst.body.data.path
+        upload(event){
+            var formData = new FormData()
+
+            formData.append("file", event.target.files[0])
+            formData.append("remotePath", '/agent')
+            formData.append("oid", 'test1234')
+
+            this.$vux.loading.show({
+                text: '头像上传中...'
             })
-        },
-        // 上传图片(导游证)
-        uploadBase643(upfile,callback){
-            var reader = new FileReader()
-            reader.onload = (evt)=>{
-                var imgData = evt.target.result
-                var data = {}
-                data.img = imgData
-                data.remotePath = '/agent'
-                data.filename = upfile.name
-                data.mimetype = upfile.type
-                this.$vux.loading.show({
-                    text: '图片上传中...'
-                })
-                this.$http.post('/upload/uploadFile',data).then((rst) => {
-                    if(rst.body.res_code === 200){
-                        this.toast('图片上传成功')
-                        this.$vux.loading.hide()
-                        callback(rst)
+            this.$http.post('/upload/uploadFile',formData)
+            .then((rst) => {
+                this.$vux.loading.hide()
+                if(rst.body.res_code === 200){
+                    if(event.srcElement.id === 'bUploadBtn1'){
+                        this.idCardShow1 = rst.body.prefix + rst.body.data.path
+                        this.frontImg = rst.body.data.path
+                    }else if(event.srcElement.id === 'bUploadBtn2'){
+                        this.idCardShow2 = rst.body.prefix + rst.body.data.path
+                        this.backImg = rst.body.data.path
                     }else{
-                        this.$vux.toast.show({
-                            // text: '上传头像失败',
-                            text: rst.body.msg,
-                            type: 'text'
-                        })
+                        this.idCardShow3 = rst.body.prefix + rst.body.data.path
+                        this.guideCardImg = rst.body.data.path
                     }
-                },(err) => {
-                    this.toast(err.body.msg)
+                }else{
+                    this.$vux.toast.show({
+                        text: rst.body.msg,
+                        type: 'text'
+                    })
+                }
+            })
+            .catch(err => {
+                this.$vux.loading.hide()
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
                 })
-            }
-            reader.readAsDataURL(upfile)
-        },
-        upload3(event){
-            if(!event.target.value) return
-            this.uploadBase643(event.target.files[0],(rst)=>{
-                this.idCardShow3 = rst.body.prefix + rst.body.data.path
-                this.guideCardImg = rst.body.data.path
             })
         },
 
@@ -282,6 +253,7 @@ export default {
                 text: '提交中...'
             })
             this.$http.post('/guide/user/toReview',{
+                oid: 'test1234',
                 cardNum: this.idCard,
                 phone: this.tel,
                 birthday: this.birthday,
@@ -291,7 +263,8 @@ export default {
                 guideCardImg: this.guideCardImg,
                 realName: this.name,
                 code: this.authCode
-            }).then((rst) => {
+            })
+            .then((rst) => {
                 this.$vux.loading.hide()
                 if(rst.body.res_code === 200){
                     this.toast('身份信息已提交审核，请稍候查看')
@@ -299,8 +272,12 @@ export default {
                 }else{
                     this.toast(rst.body.msg)
                 }
-            },(err) => {
-                this.toast(err.body.msg)
+            })
+            .catch(err => {
+                this.$vux.toast.show({
+                    text: err.body.msg,
+                    type: 'text'
+                })
             })
         }
     }
@@ -335,8 +312,8 @@ export default {
                 font-size: 14px
             .active
                 color: #03ca9d
-            .on 
-                background: #ccc
+            .on , .on2
+                background: #03ca9d
             i 
                 display: inline-block
                 position: absolute
@@ -347,7 +324,7 @@ export default {
                 line-height: 28px
                 color: #fff 
                 text-align: center
-                background: #03ca9d
+                background: #ccc
                 border-radius: 100px
                 font-style: normal
                 padding: 0px 10px
@@ -429,5 +406,6 @@ button
     font-size: 14px
 .identify .weui-cell__ft
     text-align: left
-    padding-left: 11px
+    padding-left: 7px
+    // color: #333
 </style>

@@ -4,10 +4,10 @@
             <sticky scrollBox="vux_view_box_body" :offset="46">
                 <tab :line-width=2 active-color='#00ca9d' custom-bar-width="50px">
                     <tab-item selected @on-item-click = 'itemClickHandle'>
-                        通过审核
+                        审核中
                     </tab-item>
                     <tab-item @on-item-click = 'itemClickHandle'>
-                        审核中
+                        通过审核
                     </tab-item>
                     <tab-item @on-item-click = 'itemClickHandle'>
                         未通过审核
@@ -40,11 +40,10 @@
                             <i class="iconfont icon-shutdown" @click="del(item.id)"></i>
                         </div>
                     </div>
-                    <load-more :tip="正在加载"></load-more>
+                    <!-- <load-more :tip="正在加载"></load-more> -->
                 </div>
             </scroller>
 
-            <div class="loadAll" ref="div"></div>
             <!-- <load-more :show-loading="false" :tip="暂无数据" background-color="#fbf9fe"></load-more> -->
             
             <!-- 新建按钮 -->
@@ -57,9 +56,30 @@
 
 <script>
 var dtCache = window.localStorage
-
 import WxFooter from '../../components/WxFooter'
-import { Tabbar, TabbarItem, Sticky,Tab, TabItem,  Divider, XButton, Swiper, SwiperItem, Card, Panel, ViewBox, LoadMore, Scroller, Spinner, Group, Cell, Flexbox, FlexboxItem} from 'vux'
+
+import { 
+    Tabbar,
+    TabbarItem, 
+    Sticky,
+    Tab, 
+    TabItem,  
+    Divider, 
+    XButton, 
+    Swiper, 
+    SwiperItem, 
+    Card, 
+    Panel, 
+    ViewBox, 
+    LoadMore, 
+    Scroller, 
+    Spinner, 
+    Group, 
+    Cell, 
+    Flexbox, 
+    FlexboxItem
+} from 'vux'
+
 export default {
     name: 'lineList',
 
@@ -94,7 +114,10 @@ export default {
         Spinner,
         Group,
         Cell,
-        Flexbox, FlexboxItem,Tabbar, TabbarItem
+        Flexbox, 
+        FlexboxItem,
+        Tabbar, 
+        TabbarItem
     },
 
     created () {
@@ -117,14 +140,16 @@ export default {
             this.pageNo = 1
             this.fetchList()
         },
+
         onScrollBottom () {
-            console.log('滚动到底部')
             this.pageNo += 1
             this.fetchList()
         },
+
         // 上下线
         downHandle (lineId,status) {
-            this.$http.get(`/guide/line/onOrOff?oid=asfasfqe1134&lineId=${lineId}&status=${status}`).then((rst) => {
+            this.$http.get(`/guide/line/onOrOff?oid=test1234&lineId=${lineId}&status=${status}`)
+            .then(rst => {
                 if(rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: status!=1 ? '上线成功' : '下线成功',
@@ -139,23 +164,27 @@ export default {
                         type: 'text'
                     })
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
                 })
             })
+
         },
+
         // 删除线路
         del(lineId){
-            this.$http.get(`/guide/line/del?oid=asfasfqe1134&lineId=${lineId}`).then((rst) => {
+            this.$http.get(`/guide/line/del?oid=test1234&lineId=${lineId}`)
+            .then((rst) => {
                 if(rst.body.res_code === 200){
+                    this.loadOnce = false
+                    this.lastPage = false
+                    this.fetchList()
                     this.$vux.toast.show({
                         text: '线路删除成功',
-                        type: 'text',
-                        onHide () {
-                            this.fetchList()
-                        }
+                        type: 'text'
                     })
                 }else{
                     this.$vux.toast.show({
@@ -163,17 +192,21 @@ export default {
                         type: 'text'
                     })
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
                 })
             })
         },
+
         // 修改路线
         edit(item){
+            dtCache.clear()
             dtCache.setItem('lineMes',JSON.stringify(item))
             this.$router.push('/user/create?lineId='+ item.id)
+            // window.location.href = '#/user/create?lineId='+ item.id
         },
 
         // 新建线路
@@ -181,17 +214,18 @@ export default {
             this.$router.push('/user/create')
         },
 
+        // 获取列表
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`).then((rst) => {
+                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=test1234`)
+                .then((rst) => {
                     if(rst.body && rst.body.data){
                         this.lineList = this.lineList.concat(rst.body.data.list)
                         this.pageNo = rst.body.data.pageNumber
                         this.imgOrigin = rst.body.prefix
                     }
                     if(rst.body && rst.body.data && rst.body.data.lastPage){
-                        this.$refs.div.innerHTML = '底线已被触碰~'
                         this.lastPage = true
                     }else{
                         this.lastPage = false
@@ -200,13 +234,15 @@ export default {
                     this.$nextTick(() => {
                         this.$refs.scrollerBottom.reset()
                     })
+
                     this.loadOnce = false
-                },(err) => {
+                }) 
+                .catch(err => {
                     this.$vux.toast.show({
                         text: err.body.msg,
                         type: 'text'
                     })
-                }) 
+                })
             }
         }
     }

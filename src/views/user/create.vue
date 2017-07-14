@@ -6,12 +6,12 @@
         <group class="border-bottom">
             <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
-            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="number"></x-input>
-            <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime>
-            <!-- <div class="workDays">
+            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="text" class="border-bottom"></x-input>
+            <!-- <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime> -->
+            <div class="workDays">
                 <span>出导日历</span>
-                <input type="text" placeholder="请选择旅程日期" v-model="workDays" class="workDays-input">
-            </div> -->
+                <input type="text" placeholder="请选择旅程日期" v-model="workDays" class="workDays-input" @click="showDatePop=true">
+            </div>
             <datetime 
                 v-model="workTime" 
                 format="YYYY-MM-DD HH:mm" 
@@ -21,7 +21,7 @@
                 title="出导时间"
                 placeholder="请输入旅程时间"
             ></datetime>
-            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model.trim="vLength" type="number"></x-input>
+            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="text"></x-input>
             <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
 
@@ -39,9 +39,31 @@
             <tabbar-item @click.native="confirm"><span slot="label">提交审核</span></tabbar-item>
         </tabbar>
 
-        <!-- <div class="pop-mask">
-            <div class="pop-box"></div>
-        </div> -->
+        <div v-if="showDatePop" class="pop-mask" @click.self="showDatePop=false">
+            <!-- <div class="pop-box"> -->
+                <div class="ui-datepicker-wrapper">
+                    <div class="ui-datepicker-header">
+                        <a href="javaScript:;" class="ui-datepicker-btn ui-datepicker-prev-btn" @click.stop="edit()">&lt;</a>
+                        <a href="javaScript:;" class="ui-datepicker-btn ui-datepicker-next-btn" @click.stop="edit(1)">&gt;</a>
+                        <span class="ui-datepicker-curr-month">{{date}}</span>
+                    </div>
+                    <div class="ui-datepicker-body">
+                        <div class="ui-datepicker-body-header">
+                            <span v-for="(item,index) in weekList">{{item}}</span>
+                        </div>
+                        <div class="ui-datepicker-body-days">
+                            <span v-for="(item,index) in monthData" @click="choose(item)">{{item}}</span>
+                        </div>
+                    </div>
+                </div> 
+                <div class="work-days">
+                    <p>已选择日期：</p>
+                    <span v-for="(item,index) in workDatess" @click="delItem(item,index)">
+                        {{item}}<i class="iconfont icon-icon-test1"></i>
+                    </span>
+                </div>
+            <!-- </div> -->
+        </div>
     </div>
 </template>
 
@@ -55,17 +77,25 @@ export default {
 
     data () {
         return {
-            config: vm.config,                                                    // 配置
-            lineId: this.$route.query.lineId || '',                               // 线路id
+            config: vm.config,                                                     // 配置
+            lineId: this.$route.query.lineId || '',                                // 线路id
             viewName: this.$route.query.lineId ? lineData.view_spot_name : '',     // 景点名称 
             maxCount: this.$route.query.lineId ? lineData.max_count : '',          // 接待人数
             workDays: this.$route.query.lineId ? lineData.work_date : '',          // 接待的日期
             workTime: this.$route.query.lineId ? lineData.work_time : '',          // 可接待的时间
-            content:  this.$route.query.lineId ? lineData.view_line_content : '',  // 线路内容
-            vLength:  this.$route.query.lineId ? lineData.visit_length : '',       // 预计浏览时间
-            intro:  this.$route.query.lineId ? lineData.guide_introduce : '',      // 自我介绍
+            content: this.$route.query.lineId ? lineData.view_line_content : '',   // 线路内容
+            vLength: this.$route.query.lineId ? lineData.visit_length : '',        // 预计浏览时间
+            intro: this.$route.query.lineId ? lineData.guide_introduce : '',       // 自我介绍
             lineTye: this.$route.query.lineId ? lineData.line_type : '',           // 线路类型
-            lineName: '',                                                         // 线路名称
+            lineName: '',                                                          // 线路名称
+            showDatePop: false,                                                    // 日期弹框
+            weekList: ['一','二','三','四','五','六','日'],
+            monthData: [],
+            monthData2: [],
+            year:'',
+            month:'',
+            date:'',
+            workDatess: []
         }
     },
 
@@ -83,6 +113,14 @@ export default {
         this.config.title('旅游内容')
     },
 
+    mounted() {
+        var today = new Date()
+        this.year = today.getFullYear()
+        this.month = today.getMonth() + 1;
+        this.date = this.year + '-' + this.month
+        this.fetchMonthData()
+    },
+
     methods: {
         change (value) {
             console.log('change', value)
@@ -96,6 +134,29 @@ export default {
             })
         },
 
+        // 数组去重
+        editAwrray(arr) {
+            let newArr = [], obj = {}
+            arr.forEach((item, index) =>{
+                if(obj[item]){
+                    return
+                }else{
+                    obj[item] = 1
+                    newArr.push(item)
+                }
+            })
+            arr = newArr
+            return arr
+        },
+
+        // 删除多余日历
+        delItem(item,index) {
+            console.log('item:',item)
+            console.log('index:',index)
+            this.workDatess.splice(index,1)
+            console.log('this.workDatess:',this.workDatess)
+        },
+
         // 审核
         confirm() {
             if(!this.viewName){
@@ -106,7 +167,7 @@ export default {
                 this.toast('请填写接待人数')
                 return
             }
-            if(!this.workDays){
+            if(!this.workDatess.length){
                 this.toast('请填写出导日历')
                 return
             }
@@ -135,10 +196,11 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
+                oid: 'test1234',
                 lineId: this.lineId,
                 viewName: this.viewName,
                 maxCount: this.maxCount,
-                workDays: this.workDays,
+                workDays: this.workDatess,
                 workTime: this.workTime,
                 content:  this.content,
                 vLength: this.vLength,
@@ -146,13 +208,10 @@ export default {
                 lineTye: this.lineTye
             }).then((rst) => {
                 if(rst.body.res_code === 200){
+                    this.$router.push('/user/line')
                     this.$vux.toast.show({
                         text: '新建线路成功',
-                        type: 'text',
-                        onHide () {
-                            // this.$router.push('#/user/line')
-                            window.location.href = '#/user/line'
-                        }
+                        type: 'text'
                     })
                 }
             },(err) => {
@@ -162,6 +221,85 @@ export default {
                 })
             })
         },
+
+        choose(item){
+            this.date = this.year + '-' + this.month + '-' + item
+            console.log('item:',this.date)
+            this.workDatess.push(this.date)
+            this.workDatess = this.editAwrray(this.workDatess)
+            console.log('this.workDatess:',this.workDatess)
+        },
+
+        fetchMonthData() {
+            var firstDay = new Date(this.year, this.month-1, 1);
+            var firstDayWeekDay = firstDay.getDay();
+            if(firstDayWeekDay === 0) firstDayWeekDay = 7;
+
+            this.year = firstDay.getFullYear();
+            this.month = firstDay.getMonth() + 1;
+
+            var lastDayLastMonth = new Date(this.year , this.month -1, 0);
+            var lastDayOfLastMonth = lastDayLastMonth.getDate();
+
+            var preMonthDayCount = firstDayWeekDay - 1;
+
+            var lastDay = new Date(this.year, this.month , 0);
+            var lastDate = lastDay.getDate();
+
+            for(var i=0; i<7*6; i++){
+                var date = i + 1 - preMonthDayCount;
+                var showDate = date;
+                var thisMonth = this.month;
+
+                // 上一月
+                if(date <= 0){
+                    thisMonth = this.month -1;
+                    showDate = lastDayOfLastMonth + date;
+                }
+                // 下一月
+                else if (date > lastDate) {
+                    thisMonth = this.month + 1;
+                    showDate = showDate - lastDate;
+                };
+
+                if(thisMonth === 0) thisMonth = 12;
+                if(thisMonth === 13) thisMonth = 1;
+
+                this.monthData.push(showDate)
+
+                // var myDate = new Date()
+                // var today = myDate.getDate()
+                // console.log('today:',today)
+                // this.workDatess =
+
+                // if(this.monthData.length === 42){
+                //     this.monthData.forEach((item,index) =>{
+                //         console.log('item:',item)
+                //         this.monthData2.push({item:true})
+                //     })
+                //     console.log('this.monthData2:',this.monthData2)
+                // }
+            }
+        },
+
+        edit(type) {
+            if(type){
+                this.month += 1
+                if(this.month === 13){
+                    this.month = 1
+                    this.year += 1
+                }
+            }else{
+                this.month += -1
+                if(this.month === 0){
+                    this.month = 12
+                    this.year += -1
+                }
+            }
+            this.date = this.year + '-' + this.month 
+            this.monthData = []
+            this.fetchMonthData()
+        }
     }
 }
 </script>
@@ -207,10 +345,10 @@ export default {
         top: 0
         width: 100%
         height: 100%
-        background: #000
-        opacity: .5
+        background: #dedede
+        opacity: 1
         z-index: 1000
-        .pop 
+        .pop-box 
             width: 90%
             height: 80%
             margin: 10% auto
@@ -233,4 +371,62 @@ export default {
     border: none
 // .userCreate .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .userCreate .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i,.userCreate  .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
 //     color: #fff
+</style>
+<style lang="sass" scoped>
+.ui-datepicker-wrapper
+    width: 90%
+    font-size: 16px
+    color: #666
+    background: #fff
+    box-shadow: 2px 2px 8px 2px rgba(128,128,128,.3)
+    text-align: center
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%,0%)
+    z-index: 1
+    .ui-datepicker-header
+        padding: 0 20px
+        height: 50px
+        line-height: 50px
+        text-align: center
+        background: #f0f0f0
+        border-bottom: 1px solid #ccc
+        font-weight: bold
+        .ui-datepicker-btn
+            font-family: serif
+            font-size: 20px
+            width: 20px
+            height: 50px
+            line-height: 50px
+            color: #1abc9c
+            text-align: center
+            cursor: pointer
+            text-decoration: none
+        .ui-datepicker-prev-btn
+            float: left
+        .ui-datepicker-next-btn
+            float: right
+    .ui-datepicker-body
+        span
+            width: 14.2857%
+            height: 2.2rem
+            line-height: 2.2rem
+            background: #fff
+            float: left
+.work-days
+    span
+        display: inline-block
+        width: 23%
+        padding-left: 3px
+        box-sizing: border-box
+        position: relative
+        font-size: 13px
+        background: #ccc
+        margin-right: 2%
+        i 
+            position: absolute
+            right: -1px
+            top: -2px
+            font-size: 7px
 </style>

@@ -57,7 +57,7 @@ export default {
         },
 
         fetchInfo() {
-            this.$http.post('/guide/login').then((rst) => {
+            this.$http.post('/guide/login?oid=test1234').then((rst) => {
                 if(rst && rst.body){
                     this.info = rst.body.data
                     if(rst.body.data && rst.body.data.resource_path && rst.body.prefix){
