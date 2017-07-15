@@ -158,7 +158,7 @@ export default {
             .then(rst => {
                 if(rst.body.res_code === 200){
                     this.$vux.toast.show({
-                        text: status!=1 ? '上线成功' : '下线成功',
+                        text: status = 1 ? '上线成功' : '下线成功',
                         type: 'text',
                         onHide () {
                             this.fetchList()
