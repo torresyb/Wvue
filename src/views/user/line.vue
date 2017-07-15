@@ -34,6 +34,7 @@
                                         @click.native = 'downHandle(item.id,item.line_status)'
                                     >{{['上线发布','下线发布','上线发布','上线发布','上线发布'][item.line_status]}}
                                     </x-button>
+                                    <!-- 0=待审核,1=审核通过,2=审核失败,3=下线,4=已删除 -->
                                     <x-button mini type="primary" action-type="button" style="margin-left:5px" @click.native="edit(item)">修改线路</x-button>
                                 </div>
                             </a>
@@ -148,6 +149,11 @@ export default {
 
         // 上下线
         downHandle (lineId,status) {
+            if(status != 1){
+                status = 1
+            }else{
+                status = 0
+            }
             this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}`)
             .then(rst => {
                 if(rst.body.res_code === 200){
