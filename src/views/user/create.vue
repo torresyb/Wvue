@@ -6,12 +6,12 @@
         <group class="border-bottom">
             <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
-            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="text" class="border-bottom"></x-input>
+            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="text"></x-input>
             <!-- <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime> -->
-            <div class="workDays">
+            <!-- <div class="workDays">
                 <span>出导日历</span>
-                <input type="text" placeholder="请选择旅程日期" class="workDays-input" @click="showDatePop=true">
-            </div>
+                <input type="text" placeholder="请选择旅程日期" class="workDays-input" @click.prevent="showDatePop=true">
+            </div> -->
             <datetime 
                 v-model="workTime" 
                 format="YYYY-MM-DD HH:mm" 
