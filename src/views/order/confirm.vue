@@ -84,7 +84,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchData(){
-            this.$http.get(`/guide/order/detail?orderNum=${this.orderNum}&oid=test1234`).then((rst) => {
+            this.$http.get(`/guide/order/detail?orderNum=${this.orderNum}`).then((rst) => {
                 this.init = rst.body.data
             },(err) => {
                 this.$vux.toast.show({
@@ -103,7 +103,7 @@ export default {
 
         // 确认订单
         confirm() {
-            this.$http.get(`/guide/order/confirm?orderNum=${this.orderNum}&oid=test1234`).then((rst) => {
+            this.$http.get(`/guide/order/confirm?orderNum=${this.orderNum}`).then((rst) => {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '订单确认成功',
@@ -123,7 +123,7 @@ export default {
 
         // 取消订单
         cancel() {
-            this.$http.get(`/guide/order/cancel?orderNum=${this.orderNum}&oid=test1234`).then((rst) => {
+            this.$http.get(`/guide/order/cancel?orderNum=${this.orderNum}`).then((rst) => {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '订单取消成功',

@@ -194,7 +194,6 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
-                oid: 'test1234',
                 lineId: this.lineId,
                 viewName: this.viewName,
                 maxCount: this.maxCount,

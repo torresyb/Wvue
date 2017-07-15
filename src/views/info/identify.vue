@@ -112,7 +112,7 @@ export default {
 
             if(!this.isClicked){
                 this.isClicked = true
-                this.$http.get(`/user/code?mobile=${this.tel}&oid=test1234`)
+                this.$http.get(`/user/code?mobile=${this.tel}`)
                 .then(rst => {
                     this.countDown()
                 })
@@ -184,7 +184,6 @@ export default {
 
             formData.append("file", event.target.files[0])
             formData.append("remotePath", '/agent')
-            formData.append("oid", 'test1234')
 
             this.$vux.loading.show({
                 text: '头像上传中...'
@@ -253,7 +252,6 @@ export default {
                 text: '提交中...'
             })
             this.$http.post('/guide/user/toReview',{
-                oid: 'test1234',
                 cardNum: this.idCard,
                 phone: this.tel,
                 birthday: this.birthday,

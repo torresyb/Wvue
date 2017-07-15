@@ -57,7 +57,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/guide/user/info?oid=test1234').then((rst) => {
+            this.$http.get('/guide/user/info').then((rst) => {
                 this.status = rst.body && rst.body.data && rst.body.data.guide_status
                 if(rst.body && rst.body.data && rst.body.data.resource_path){
                     this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
@@ -115,7 +115,6 @@ export default {
             var formData = new FormData()
                 formData.append("file", event.target.files[0])
                 formData.append("remotePath", '/agent')
-                formData.append("oid", 'test1234')
             this.$vux.loading.show({
                 text: '头像上传中...'
             })
@@ -142,7 +141,7 @@ export default {
 
         // 保存头像
         save(img) {
-            this.$http.post('/user/setAvatar',{img: img,oid: 'test1234'}).then((rst) => {
+            this.$http.post('/user/setAvatar',{img: img}).then((rst) => {
                 if(rst.body.res_code === 200){
                     this.headImg = rst.body.prefix + rst.body.data.path
                     this.$vux.toast.show({
