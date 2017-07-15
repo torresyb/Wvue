@@ -181,6 +181,7 @@ export default {
                 if(rst.body.res_code === 200){
                     this.loadOnce = false
                     this.lastPage = false
+                    this.lineList = []
                     this.fetchList()
                     this.$vux.toast.show({
                         text: '线路删除成功',

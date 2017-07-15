@@ -12,7 +12,7 @@
                 <span>出导日历</span>
                 <input type="text" placeholder="请选择旅程日期" class="workDays-input" @click.prevent="showDatePop=true">
             </div> -->
-            <datetime 
+            <!-- <datetime 
                 v-model="workTime" 
                 format="YYYY-MM-DD HH:mm" 
                 :hour-list="['09', '10', '11', '12', '2', '3', '4', '5']" 
@@ -20,7 +20,7 @@
                 @on-change="change" 
                 title="出导时间"
                 placeholder="请输入旅程时间"
-            ></datetime>
+            ></datetime> -->
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="text"></x-input>
             <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
@@ -165,14 +165,14 @@ export default {
                 this.toast('请填写接待人数')
                 return
             }
-            if(!this.workDatess.length){
-                this.toast('请填写出导日历')
-                return
-            }
-            if(!this.workTime){
-                this.toast('请填写可接待时间')
-                return
-            }
+            // if(!this.workDatess.length){
+            //     this.toast('请填写出导日历')
+            //     return
+            // }
+            // if(!this.workTime){
+            //     this.toast('请填写可接待时间')
+            //     return
+            // }
             if(!this.content){
                 this.toast('请填写线路内容')
                 return

@@ -14,6 +14,11 @@
                 <i class="iconfont icon-right"></i>
             </li>
         </ul>
+        <h3>提现说明：</h3>
+        <p>1.目前提现只支持提现到微信零钱</p>
+        <p>2.提现日期固定为每周三，一周仅限一次</p>
+        <p>3.若产生交易纠纷，客户投诉，该笔订单的费用会暂时被冻结，等待平台审核通过后方可提现</p>
+        <p>4.对提现操作有任何疑问，请在工作日内(09:00-19:00)在公众号留言，会有专人第一时间为您处理</p>
     </div>
 </template>
 
@@ -71,4 +76,13 @@ export default {
         i 
             font-style: normal
             color: #979797
+    h3
+        margin: 20px 0 10px
+        font-weight: 300
+        padding: 0 15px
+        font-size: 14px
+    p 
+        padding: 0 15px
+        line-height: 26px
+        font-size: 13px
 </style>
