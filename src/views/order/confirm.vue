@@ -7,7 +7,7 @@
                 <div class="header-main-top">
                     <span>{{['待确认','已确认'][init.book_status - 1]}}</span>
                     <i>倒计时：10：00</i>
-                    <count-down 
+                    <!-- <count-down 
                         v-on:start_callback="countDownS_cb(1)" 
                         v-on:end_callback="countDownE_cb(1)" 
                         :startTime="1481450110" 
@@ -16,7 +16,7 @@
                         :hourTxt="'小时'" 
                         :minutesTxt="'分钟'" 
                         :secondsTxt="'秒'"
-                    ></count-down>
+                    ></count-down> -->
                 </div>
                 <p>导游正在查看您的订单信息，核实没问题后，接受订单即刻出发旅行</p>
             </div>
