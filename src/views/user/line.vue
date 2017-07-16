@@ -30,7 +30,6 @@
                                     <img :src="item.resource_path ? (item.resource_path.indexOf('http')>-1 ? '' : imgOrigin) + item.resource_path : require('../../assets/images/defaultPhoto.png')" alt="">
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
-
                                     <x-button v-if="item.line_status==1"  plain type="primary" mini 
                                         @click.native = 'downHandle(item.id,item.line_status)'
                                     >下线发布
@@ -298,4 +297,6 @@ export default {
     color: #777
     width: 41px
     text-align: right
+#vux-scroller-4ck1p
+    padding-bottom: 70px
 </style>

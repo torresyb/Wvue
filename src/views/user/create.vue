@@ -6,8 +6,8 @@
         <group class="border-bottom">
             <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
-            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="text"></x-input>
-            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="text"></x-input>
+            <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="maxCount" type="number"></x-input>
+            <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="number"></x-input>
             <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
 
