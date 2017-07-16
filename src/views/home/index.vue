@@ -7,6 +7,7 @@
             </div>
             <p>{{info && info.real_name || '导游'}}</p>
         </div>
+        
         <!-- 列表 -->
         <group>
             <cell title = '我的订单' link="/order" is-link></cell>
@@ -14,6 +15,7 @@
             <cell title = '我的钱包' link="/user/money" is-link></cell>
             <cell title = '导游认证' link="/info" is-link></cell>
         </group>
+
         <!-- 公用底部 -->
         <wx-footer></wx-footer>
     </div>
@@ -57,17 +59,19 @@ export default {
         },
 
         fetchInfo() {
-            this.$http.post('/guide/login').then((rst) => {
+            this.$http.post('/guide/login')
+            .then(rst => {
                 if(rst && rst.body){
                     this.info = rst.body.data
                     if(rst.body.data && rst.body.data.resource_path && rst.body.prefix){
                         this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
                     }
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
-                    type: 'text',
-                    text: err.body.msg
+                    text: err.body.msg,
+                    type: 'text'
                 })
             })
         }

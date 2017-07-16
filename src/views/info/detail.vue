@@ -1,5 +1,6 @@
 <template>
     <div id="info" class="info">
+        <!-- banner -->
         <div class="banner">
             <img :src="headImg ? headImg: require('../../assets/images/defaultPhoto.png')" alt="">
             <h3>{{init.real_name}}
@@ -7,6 +8,8 @@
                 <i v-else class="iconfont icon-xingbienv"></i>
             </h3>
         </div>
+
+        <!-- 身份信息 -->
         <div class="id-mes">
             <h3 class="mes-h3">身份信息</h3>
             <ul>
@@ -25,8 +28,8 @@
             </ul>
         </div>
 
+        <!-- 认证信息 -->
         <h3 class="mes-h3">认证信息</h3>
-
         <div class="pic-box">
             <div class="pic-id1 pic">
                 <img :src="card_front_img ? card_front_img: require('../../assets/images/defaultPhoto.png')" alt="">
@@ -72,7 +75,8 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/guide/user/info').then((rst) => {
+            this.$http.get('/guide/user/info')
+            .then(rst => {
                 this.status = rst.body && rst.body.data && rst.body.data.guide_status
                 this.gender = rst.body && rst.body.data && rst.body.data.gender
                 this.init = rst.body && rst.body.data
@@ -82,7 +86,8 @@ export default {
                     this.card_back_img = (rst.body.data.card_back_img.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.card_back_img
                     this.guide_img = (rst.body.data.guide_img.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.guide_img
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -105,7 +110,6 @@ export default {
         height: 92px
         border-radius: 50%
         border: 3px solid #7a7473
-        // background: green
         margin: 28px 0 10px
     h3
         font-size: normal
@@ -196,7 +200,4 @@ export default {
     p 
         color: #999
         font-size: 12px
-</style>
-<style lang="sass">
-
 </style>

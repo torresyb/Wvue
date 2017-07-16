@@ -7,16 +7,6 @@
                 <div class="header-main-top">
                     <span>{{['待确认','已确认'][init.book_status - 1]}}</span>
                     <i>倒计时：10：00</i>
-                    <!-- <count-down 
-                        v-on:start_callback="countDownS_cb(1)" 
-                        v-on:end_callback="countDownE_cb(1)" 
-                        :startTime="1481450110" 
-                        :endTime="1481450115"  
-                        :dayTxt="'天'" 
-                        :hourTxt="'小时'" 
-                        :minutesTxt="'分钟'" 
-                        :secondsTxt="'秒'"
-                    ></count-down> -->
                 </div>
                 <p>导游正在查看您的订单信息，核实没问题后，接受订单即刻出发旅行</p>
             </div>
@@ -58,7 +48,6 @@
 
 <script>
 import { Tabbar, TabbarItem} from 'vux'
-import CountDown from 'vue2-countdown'
 export default {
     name: 'confirm',
 
@@ -66,14 +55,13 @@ export default {
         return {
             config: vm.config,                        // 配置
             orderNum: this.$route.query.orderNum,     // 订单号
-            init: {},                                 // 数据
+            init: {}                                  // 数据
         }
     },
 
     components: {
         Tabbar,
-        TabbarItem,
-        CountDown
+        TabbarItem
     },
 
     created () {
@@ -84,9 +72,11 @@ export default {
     methods: {
         // 获取用户信息
         fetchData(){
-            this.$http.get(`/guide/order/detail?orderNum=${this.orderNum}`).then((rst) => {
+            this.$http.get(`/guide/order/detail?orderNum=${this.orderNum}`)
+            .then((rst) => {
                 this.init = rst.body.data
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -94,16 +84,10 @@ export default {
             })
         },
 
-        countDownS_cb: function (x) {
-            console.log(x)
-        },
-        countDownE_cb: function (x) {
-            console.log(x)
-        },
-
         // 确认订单
         confirm() {
-            this.$http.get(`/guide/order/confirm?orderNum=${this.orderNum}`).then((rst) => {
+            this.$http.get(`/guide/order/confirm?orderNum=${this.orderNum}`)
+            .then((rst) => {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '订单确认成功',
@@ -113,7 +97,8 @@ export default {
                         }
                     })
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -123,14 +108,16 @@ export default {
 
         // 取消订单
         cancel() {
-            this.$http.get(`/guide/order/cancel?orderNum=${this.orderNum}`).then((rst) => {
+            this.$http.get(`/guide/order/cancel?orderNum=${this.orderNum}`)
+            .then((rst) => {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '订单取消成功',
                         type: 'text'
                     })
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -168,7 +155,6 @@ export default {
                 font-size: 15px
                 color: #666
                 margin-top: 15px
-
     .item
         height: 40px
         line-height: 40px

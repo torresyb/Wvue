@@ -26,16 +26,5 @@ export default {
         let reg = new RegExp(`(^| )${name}=([^;]*)(;|$)`)
         let arr = document.cookie.match(reg)
         return arr ? unescape(arr[2]) : null
-    },
-
-    // 图片 origin
-    // imgOrigin: `${location.protocol}//img.yuanqj.cn`,
-
-    // // vux基础上封装toast
-    // toast(mes){
-    //     this.$vux.toast.show({
-    //         text: mes,
-    //         type: 'text'
-    //     })
-    // }
+    }
 }

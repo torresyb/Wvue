@@ -9,21 +9,14 @@
             <img :src="headImg? headImg: require('../../assets/images/defaultPhoto.png')" alt="">
             <i class="iconfont icon-right"></i>
             <input @change="upload($event)" class="" type="file" accept="image/*" id="bUploadBtn" ref="input">
-            <!-- <input type="file" @change="uploadFile" id="bUploadBtn" accept="image/*"> -->
         </div>
         <a :href="status ? 'javascript:;' : '#/info/identify'" class="desc-box border-bottom">
             <span>真实身份</span>
             <p v-if="status==4">认证中</p>
             <p v-else>{{['未认证','已认证'][+ status]}}</p>
             <i class="iconfont icon-right"></i>
-            <!-- 0=未提交审核,1=审核通过,2=审核失败,3=暂停服务,4=审核中 -->
         </a>
-        <!-- <a v-if="status==1" href="#/info/detail" class="desc-box border-bottom">
-            <span>个人信息</span>
-            <p>查看详情</p>
-            <i class="iconfont icon-right"></i>
-        </a> -->
-        
+
         <!-- 按钮 -->
         <tabbar>
             <tabbar-item @click.native="create"><span slot="label">发布行程</span></tabbar-item>
@@ -57,12 +50,14 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/guide/user/info').then((rst) => {
+            this.$http.get('/guide/user/info')
+            .then((rst) => {
                 this.status = rst.body && rst.body.data && rst.body.data.guide_status
                 if(rst.body && rst.body.data && rst.body.data.resource_path){
                     this.headImg = (rst.body.data.resource_path.indexOf('http') > -1 ? '': rst.body.prefix) + rst.body.data.resource_path
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -118,7 +113,8 @@ export default {
             this.$vux.loading.show({
                 text: '头像上传中...'
             })
-            this.$http.post('/upload/uploadFile',formData).then((rst) => {
+            this.$http.post('/upload/uploadFile',formData)
+            .then(rst => {
                 this.$vux.loading.hide()
                 if(rst.body.res_code === 200){
                     this.save(rst.body.data.path)
@@ -128,8 +124,8 @@ export default {
                         type: 'text'
                     })
                 }
-            },(err) => {
-                this.$vux.loading.hide()
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -141,7 +137,8 @@ export default {
 
         // 保存头像
         save(img) {
-            this.$http.post('/user/setAvatar',{img: img}).then((rst) => {
+            this.$http.post('/user/setAvatar',{img: img})
+            .then(rst => {
                 if(rst.body.res_code === 200){
                     this.headImg = rst.body.prefix + rst.body.data.path
                     this.$vux.toast.show({
@@ -149,7 +146,8 @@ export default {
                         type: 'text'
                     })
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'

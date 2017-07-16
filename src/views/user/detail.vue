@@ -37,7 +37,8 @@ export default {
 
     methods: {
         fetchData(){
-            this.$http.get(`/user/account/log?pageNo=${this.pageNo}`).then((rst) => {
+            this.$http.get(`/user/account/log?pageNo=${this.pageNo}`)
+            .then(rst => {
                 if(rst.body && rst.body.data){
                     this.list = this.list.concat(rst.body.data.list)
                     this.lastPage = rst.body.data.lastPage
@@ -46,7 +47,8 @@ export default {
                 if(!this.lastPage && this.list.length <= rst.body.data.totalRow){
                     this.fetchData()
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'

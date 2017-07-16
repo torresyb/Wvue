@@ -12,12 +12,11 @@ let config = [
     '/user/create',                 // 旅游内容(修改路线)
     '/user/money',                  // 我的钱包
     '/user/detail',                 // 收支明细
-    '/user/getCash',                // 提现
 
     // 完善信息
-    '/info/index',                  // 完善导游信息-首页
-    '/info/rules',                  // 完善导游信息-细则
-    '/info/identify',               // 完善导游信息-审核页
+    '/info/index',                  // 个人信息-首页
+    '/info/rules',                  // 个人信息-细则
+    '/info/identify',               // 个人信息-审核页
     '/info/detail',                 // 个人信息详情
 
     // 订单相关

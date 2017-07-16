@@ -262,7 +262,7 @@ export default {
                 realName: this.name,
                 code: this.authCode
             })
-            .then((rst) => {
+            .then(rst => {
                 this.$vux.loading.hide()
                 if(rst.body.res_code === 200){
                     this.toast('身份信息已提交审核，请稍候查看')
@@ -405,5 +405,4 @@ button
 .identify .weui-cell__ft
     text-align: left
     padding-left: 7px
-    // color: #333
 </style>

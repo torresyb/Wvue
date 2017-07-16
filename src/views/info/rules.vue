@@ -12,22 +12,17 @@
 </template>
 
 <script>
-
 export default {
     name: 'rules',
 
     data () {
         return {
-            config: vm.config,                      // 配置
+            config: vm.config,         // 配置
         }
     },
 
-    beforeMounted () {
+    created() {
         this.config.title('完善导游信息')
-    },
-
-    methods: {
-        
     }
 }
 </script>
@@ -44,5 +39,4 @@ export default {
         padding: 0 15px
         margin-bottom: 10px
         text-indent: 2em
-
 </style>

@@ -7,20 +7,6 @@
             <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model.trim="maxCount" type="text"></x-input>
-            <!-- <datetime @on-change="change" placeholder-align="right" title="出导日历" v-model="workDays" placeholder="请输入旅程日期"></datetime> -->
-            <!-- <div class="workDays">
-                <span>出导日历</span>
-                <input type="text" placeholder="请选择旅程日期" class="workDays-input" @click.prevent="showDatePop=true">
-            </div> -->
-            <!-- <datetime 
-                v-model="workTime" 
-                format="YYYY-MM-DD HH:mm" 
-                :hour-list="['09', '10', '11', '12', '2', '3', '4', '5']" 
-                :minute-list="['00', '15', '30', '45']" 
-                @on-change="change" 
-                title="出导时间"
-                placeholder="请输入旅程时间"
-            ></datetime> -->
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="text"></x-input>
             <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
@@ -149,10 +135,7 @@ export default {
 
         // 删除多余日历
         delItem(item,index) {
-            console.log('item:',item)
-            console.log('index:',index)
             this.workDatess.splice(index,1)
-            console.log('this.workDatess:',this.workDatess)
         },
 
         // 审核
@@ -165,14 +148,6 @@ export default {
                 this.toast('请填写接待人数')
                 return
             }
-            // if(!this.workDatess.length){
-            //     this.toast('请填写出导日历')
-            //     return
-            // }
-            // if(!this.workTime){
-            //     this.toast('请填写可接待时间')
-            //     return
-            // }
             if(!this.content){
                 this.toast('请填写线路内容')
                 return
@@ -194,16 +169,17 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
-                lineId: this.lineId,
-                viewName: this.viewName,
-                maxCount: this.maxCount,
-                workDays: this.workDatess,
-                workTime: this.workTime,
-                content:  this.content,
-                vLength: this.vLength,
-                intro:  this.intro,
-                lineTye: this.lineTye
-            }).then((rst) => {
+                lineId:this.lineId,
+                viewName:this.viewName,
+                maxCount:this.maxCount,
+                workDays:this.workDatess,
+                workTime:this.workTime,
+                content:this.content,
+                vLength:this.vLength,
+                intro:this.intro,
+                lineTye:this.lineTye
+            })
+            .then((rst) => {
                 if(rst.body.res_code === 200){
                     this.$router.push('/user/line')
                     this.$vux.toast.show({
@@ -211,7 +187,8 @@ export default {
                         type: 'text'
                     })
                 }
-            },(err) => {
+            })
+            .catch(err => {
                 this.$vux.toast.show({
                     text: err.body.msg,
                     type: 'text'
@@ -221,10 +198,8 @@ export default {
 
         choose(item){
             this.date = this.year + '-' + this.month + '-' + item
-            console.log('item:',this.date)
             this.workDatess.push(this.date)
             this.workDatess = this.editAwrray(this.workDatess)
-            console.log('this.workDatess:',this.workDatess)
         },
 
         fetchMonthData() {
@@ -263,19 +238,6 @@ export default {
                 if(thisMonth === 13) thisMonth = 1;
 
                 this.monthData.push(showDate)
-
-                // var myDate = new Date()
-                // var today = myDate.getDate()
-                // console.log('today:',today)
-                // this.workDatess =
-
-                // if(this.monthData.length === 42){
-                //     this.monthData.forEach((item,index) =>{
-                //         console.log('item:',item)
-                //         this.monthData2.push({item:true})
-                //     })
-                //     console.log('this.monthData2:',this.monthData2)
-                // }
             }
         },
 
@@ -366,8 +328,6 @@ export default {
     left: -15px
 .userCreate .vux-x-textarea:before
     border: none
-// .userCreate .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .userCreate .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i,.userCreate  .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label
-//     color: #fff
 </style>
 <style lang="sass" scoped>
 .ui-datepicker-wrapper
@@ -378,11 +338,6 @@ export default {
     box-shadow: 2px 2px 8px 2px rgba(128,128,128,.3)
     text-align: center
     margin: 0 auto
-    // position: absolute
-    // top: 50%
-    // left: 50%
-    // transform: translate(-50%,0%)
-    // z-index: 1
     .ui-datepicker-header
         padding: 0 20px
         height: 50px

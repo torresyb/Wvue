@@ -30,10 +30,16 @@
                                     <img :src="item.resource_path ? (item.resource_path.indexOf('http')>-1 ? '' : imgOrigin) + item.resource_path : require('../../assets/images/defaultPhoto.png')" alt="">
                                 </div>
                                 <div class="weui-media-box__bd wx-right">
-                                    <x-button plain type="primary" mini 
+
+                                    <x-button v-if="item.line_status==1"  plain type="primary" mini 
                                         @click.native = 'downHandle(item.id,item.line_status)'
-                                    >{{['上线发布','下线发布','上线发布','上线发布','上线发布'][item.line_status]}}
+                                    >下线发布
                                     </x-button>
+                                    <x-button v-else-if="item.line_status==3"  plain type="primary" mini 
+                                        @click.native = 'downHandle(item.id,item.line_status)'
+                                    >上线发布
+                                    </x-button>
+
                                     <!-- 0=待审核,1=审核通过,2=审核失败,3=下线,4=已删除 -->
                                     <x-button mini type="primary" action-type="button" style="margin-left:5px" @click.native="edit(item)">修改线路</x-button>
                                 </div>
@@ -213,7 +219,6 @@ export default {
             dtCache.clear()
             dtCache.setItem('lineMes',JSON.stringify(item))
             this.$router.push('/user/create?lineId='+ item.id)
-            // window.location.href = '#/user/create?lineId='+ item.id
         },
 
         // 新建线路
@@ -226,7 +231,7 @@ export default {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
                 this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
-                .then((rst) => {
+                .then(rst => {
                     if(rst.body && rst.body.data){
                         this.lineList = this.lineList.concat(rst.body.data.list)
                         this.pageNo = rst.body.data.pageNumber
