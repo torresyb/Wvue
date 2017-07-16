@@ -163,6 +163,10 @@ export default {
                 this.toast('请填写景点名称')
                 return
             }
+            if(!this.lineName){
+                this.toast('请填写线路名称')
+                return
+            }
             if(!this.maxCount){
                 this.toast('请填写接待人数')
                 return

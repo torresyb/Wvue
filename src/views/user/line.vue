@@ -24,7 +24,7 @@
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in lineList' :key="index">
                         <div class="tab-swiper vux-center">
-                            <p class="wx-title">{{item.view_line_content}}</p>
+                            <p v-if="item.line_name" class="wx-title">{{item.line_name}}</p>
                             <p class="wx-right wx-red">{{['待审核','审核通过','审核失败','下线','已删除'][item.line_status]}}</p>
                             <a href="javascript:;" class="weui-media-box weui-media-box_appmsg">
                                 <div class="weui-media-box__hd">
