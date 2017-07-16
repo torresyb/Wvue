@@ -81,6 +81,7 @@ export default {
         this.config.title('订单')
         this.fetchList()
     },
+    
     mounted () {
         this.$nextTick(() => {
           this.$refs.scrollerBottom.reset({top: 0})
@@ -102,7 +103,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.orderList = this.orderList.concat(rst.body.data.list)

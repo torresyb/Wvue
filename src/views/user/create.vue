@@ -112,6 +112,7 @@ export default {
             this.vLength = this.lineData.visit_length
             this.intro = this.lineData.guide_introduce
             this.lineTye = this.lineData.line_type
+            this.lineName = this.lineData.line_name
         }
     },
 
@@ -187,7 +188,6 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
-                // oid: 'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4',
                 lineId:this.lineId,
                 viewName:this.viewName,
                 maxCount:this.maxCount,
@@ -196,7 +196,8 @@ export default {
                 content:this.content,
                 vLength:this.vLength,
                 intro:this.intro,
-                lineTye:this.lineTye
+                lineTye:this.lineTye,
+                line_name:this.lineName
             })
             .then((rst) => {
                 if(rst.body.res_code === 200){
