@@ -160,7 +160,7 @@ export default {
             }else{
                 status = 0
             }
-            this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+            this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}`)
             .then(rst => {
                 if(rst.body.res_code === 200){
                     this.$vux.toast.show({
@@ -188,7 +188,7 @@ export default {
 
         // 删除线路
         del(lineId){
-            this.$http.get(`/guide/line/del?lineId=${lineId}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+            this.$http.get(`/guide/line/del?lineId=${lineId}`)
             .then((rst) => {
                 if(rst.body.res_code === 200){
                     this.loadOnce = false
@@ -230,7 +230,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.lineList = this.lineList.concat(rst.body.data.list)

@@ -40,8 +40,8 @@
 
         <!-- 按钮 -->
         <tabbar>
-            <tabbar-item v-if="init.status && init.status===1"><span slot="label" @click="confirm">确认订单</span></tabbar-item>
-            <tabbar-item v-else-if="init.status && init.status===2"><span slot="label" @click="cancel">取消订单</span></tabbar-item>
+            <tabbar-item v-if="init.status && init.status==1"><span slot="label" @click="confirm">确认订单</span></tabbar-item>
+            <tabbar-item v-else-if="init.status && init.status==2"><span slot="label" @click="cancel">取消订单</span></tabbar-item>
         </tabbar>
     </div>
 </template>
@@ -72,7 +72,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchData(){
-            this.$http.get(`/guide/order/detail?orderNum=${this.orderNum}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+            this.$http.get(`/guide/order/detail?orderNum=${this.orderNum}`)
             .then((rst) => {
                 this.init = rst.body.data
             })
@@ -86,7 +86,7 @@ export default {
 
         // 确认订单
         confirm() {
-            this.$http.get(`/guide/order/confirm?orderNum=${this.orderNum}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+            this.$http.get(`/guide/order/confirm?orderNum=${this.orderNum}`)
             .then((rst) => {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({
@@ -108,7 +108,7 @@ export default {
 
         // 取消订单
         cancel() {
-            this.$http.get(`/guide/order/cancel?orderNum=${this.orderNum}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+            this.$http.get(`/guide/order/cancel?orderNum=${this.orderNum}`)
             .then((rst) => {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({

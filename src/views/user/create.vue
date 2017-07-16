@@ -8,7 +8,7 @@
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="maxCount" type="number"></x-input>
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="number"></x-input>
-            <div v-if="price"class="pay">
+            <div v-if="price && (price - 0) != 0" class="pay">
                 <span>行程费用</span>
                 <i>{{price}}</i>
             </div>
@@ -174,7 +174,6 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
-                oid:'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4',
                 lineId:this.lineId,
                 viewName:this.viewName,
                 maxCount:this.maxCount,

@@ -14,6 +14,7 @@
                 ref = "scrollerBottom" 
                 class = "srcollBox"
                 :scroll-bottom-offst = "200"
+                style="padding-bottom:100px;"
             >
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in orderList' :key="index">
@@ -38,7 +39,7 @@
                 </div>
             </scroller>
 
-            <div class="loadAll" ref="div"></div>
+            <!-- <div class="loadAll" ref="div"></div> -->
             <!-- <load-more :show-loading="false" :tip="暂无数据" background-color="#fbf9fe"></load-more> -->
             <!-- 公用底部 -->
             <wx-footer></wx-footer>
@@ -101,7 +102,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
+                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.orderList = this.orderList.concat(rst.body.data.list)

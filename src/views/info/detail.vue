@@ -75,7 +75,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/guide/user/info?oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4')
+            this.$http.get('/guide/user/info')
             .then(rst => {
                 this.status = rst.body && rst.body.data && rst.body.data.guide_status
                 this.gender = rst.body && rst.body.data && rst.body.data.gender

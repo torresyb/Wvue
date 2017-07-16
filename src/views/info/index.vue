@@ -50,7 +50,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/guide/user/info?oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4')
+            this.$http.get('/guide/user/info')
             .then((rst) => {
                 this.status = rst.body && rst.body.data && rst.body.data.guide_status
                 if(rst.body && rst.body.data && rst.body.data.resource_path){
@@ -110,7 +110,6 @@ export default {
             var formData = new FormData()
                 formData.append("file", event.target.files[0])
                 formData.append("remotePath", '/agent')
-                formData.append("oid",'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4')
             this.$vux.loading.show({
                 text: '头像上传中...'
             })
