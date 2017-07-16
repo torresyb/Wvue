@@ -10,7 +10,7 @@
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="number"></x-input>
             <div v-if="price && Number(price) > 0" class="pay">
                 <span>行程费用</span>
-                <i>{{price}}</i>
+                <i>{{price}}元</i>
             </div>
             <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
