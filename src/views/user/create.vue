@@ -8,7 +8,7 @@
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="maxCount" type="number"></x-input>
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="number"></x-input>
-            <div v-if="price && (price - 0) != 0" class="pay">
+            <div v-if="price && Number(price) > 0" class="pay">
                 <span>行程费用</span>
                 <i>{{price}}</i>
             </div>
@@ -56,8 +56,7 @@
 </template>
 
 <script>
-var dtCache = window.localStorage
-var lineData = JSON.parse(dtCache.getItem('lineMes'))
+
 
 import { Tabbar, TabbarItem, Datetime, Group, XButton, XInput, XTextarea} from 'vux'
 export default {
@@ -65,19 +64,20 @@ export default {
 
     data () {
         return {
-            config: vm.config,                                                     // 配置
-            lineId: this.$route.query.lineId || '',                                // 线路id
-            price: this.$route.query.price ,                                       // 价格
-            viewName: this.$route.query.lineId ? lineData.view_spot_name : '',     // 景点名称 
-            maxCount: this.$route.query.lineId ? lineData.max_count : '',          // 接待人数
-            workDays: this.$route.query.lineId ? lineData.work_date : '',          // 接待的日期
-            workTime: this.$route.query.lineId ? lineData.work_time : '',          // 可接待的时间
-            content: this.$route.query.lineId ? lineData.view_line_content : '',   // 线路内容
-            vLength: this.$route.query.lineId ? lineData.visit_length : '',        // 预计浏览时间
-            intro: this.$route.query.lineId ? lineData.guide_introduce : '',       // 自我介绍
-            lineTye: this.$route.query.lineId ? lineData.line_type : '',           // 线路类型
-            lineName: '',                                                          // 线路名称
-            showDatePop: false,                                                    // 日期弹框
+            config: vm.config,                               // 配置
+            lineData:{},                                     // locastorage
+            lineId: this.$route.query.lineId || '',          // 线路id
+            price: this.$route.query.price ,                 // 价格
+            viewName: '',                                    // 景点名称 
+            maxCount: '',                                    // 接待人数
+            workDays: '',                                    // 接待的日期
+            workTime: '',                                    // 可接待的时间
+            content: '',                                     // 线路内容
+            vLength: '',                                     // 预计浏览时间
+            intro: '',                                       // 自我介绍
+            lineTye: '',                                     // 线路类型
+            lineName: '',                                    // 线路名称
+            showDatePop: false,                              // 日期弹框
             weekList: ['一','二','三','四','五','六','日'],
             monthData: [],
             monthData2: [],
@@ -100,6 +100,19 @@ export default {
 
     created () {
         this.config.title('旅游内容')
+        var dtCache = window.localStorage
+
+        this.lineData = JSON.parse(dtCache.getItem('lineMes'))
+        if(this.$route.query.lineId){
+            this.viewName = this.lineData.view_spot_name 
+            this.maxCount = this.lineData.max_count
+            this.workDays = this.lineData.work_date
+            this.workTime = this.lineData.work_time
+            this.content = this.lineData.view_line_content
+            this.vLength = this.lineData.visit_length
+            this.intro = this.lineData.guide_introduce
+            this.lineTye = this.lineData.line_type
+        }
     },
 
     mounted() {
@@ -174,6 +187,7 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
+                // oid: 'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4',
                 lineId:this.lineId,
                 viewName:this.viewName,
                 maxCount:this.maxCount,

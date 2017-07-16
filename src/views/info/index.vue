@@ -110,6 +110,7 @@ export default {
             var formData = new FormData()
                 formData.append("file", event.target.files[0])
                 formData.append("remotePath", '/agent')
+                // formData.append("oid", 'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4')
             this.$vux.loading.show({
                 text: '头像上传中...'
             })

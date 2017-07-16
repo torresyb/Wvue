@@ -91,11 +91,9 @@ export default {
                 if(rst.body && rst.body.res_code === 200){
                     this.$vux.toast.show({
                         text: '订单确认成功',
-                        type: 'text',
-                        onHide () {
-                            this.$router.push('#/order?status=2')
-                        }
+                        type: 'text'
                     })
+                    this.$router.push('#/order?status=2')
                 }
             })
             .catch(err => {

@@ -19,7 +19,7 @@
                 @on-scroll-bottom="onScrollBottom" 
                 ref="scrollerBottom" 
                 :scroll-bottom-offst="200"
-                style="padding-bottom:100px;"
+                height="-102"
             >
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in lineList' :key="index">
@@ -138,6 +138,10 @@ export default {
         })
     },
 
+    activated () {
+        this.$refs.scroller.reset()
+    },
+
     methods: {
         itemClickHandle (val){
             console.log('tab:',val)
@@ -163,6 +167,10 @@ export default {
             this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}`)
             .then(rst => {
                 if(rst.body.res_code === 200){
+                    this.lineList = []
+                    this.loadOnce = false
+                    this.lastPage = false
+                    this.pageNo = 1
                     this.fetchList()
                     if(status === 1){
                         this.$vux.toast.show({
@@ -188,7 +196,6 @@ export default {
                     type: 'text'
                 })
             })
-
         },
 
         // 删除线路
@@ -196,9 +203,10 @@ export default {
             this.$http.get(`/guide/line/del?lineId=${lineId}`)
             .then((rst) => {
                 if(rst.body.res_code === 200){
+                    this.lineList = []
                     this.loadOnce = false
                     this.lastPage = false
-                    this.lineList = []
+                    this.pageNo = 1
                     this.fetchList()
                     this.$vux.toast.show({
                         text: '线路删除成功',
@@ -303,4 +311,6 @@ export default {
     color: #777
     width: 41px
     text-align: right
+.lineList .wx-item:last-child
+    // margin-bottom: 100px
 </style>
