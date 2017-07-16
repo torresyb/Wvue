@@ -8,6 +8,10 @@
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="maxCount" type="number"></x-input>
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="number"></x-input>
+            <div v-if="price"class="pay">
+                <span>行程费用</span>
+                <i>{{price}}</i>
+            </div>
             <x-input title="讲解分类" placeholder-align="right" placeholder="请填写分类" v-model.trim="lineTye"></x-input>
         </group>
 
@@ -63,6 +67,7 @@ export default {
         return {
             config: vm.config,                                                     // 配置
             lineId: this.$route.query.lineId || '',                                // 线路id
+            price: this.$route.query.price ,                                       // 价格
             viewName: this.$route.query.lineId ? lineData.view_spot_name : '',     // 景点名称 
             maxCount: this.$route.query.lineId ? lineData.max_count : '',          // 接待人数
             workDays: this.$route.query.lineId ? lineData.work_date : '',          // 接待的日期
@@ -169,6 +174,7 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
+                oid:'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4',
                 lineId:this.lineId,
                 viewName:this.viewName,
                 maxCount:this.maxCount,
@@ -312,6 +318,26 @@ export default {
             height: 80%
             margin: 10% auto
             background: #fff
+.pay
+    height: 45px
+    line-height: 45px
+    padding: 0 15px
+    display: flex
+    justify-content: space-between
+    i 
+        font-style: normal
+        color: #979797
+.pay
+    position: relative
+    &:before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 1px
+        transform: scaleY(.5)
+        background: #dedede
 </style>
 <style lang="sass">
 .userCreate .vux-tabbar-simple .weui-tabbar__label

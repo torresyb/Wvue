@@ -19,6 +19,7 @@
                 @on-scroll-bottom="onScrollBottom" 
                 ref="scrollerBottom" 
                 :scroll-bottom-offst="200"
+                style="padding-bottom:100px;"
             >
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in lineList' :key="index">
@@ -159,7 +160,7 @@ export default {
             }else{
                 status = 0
             }
-            this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}`)
+            this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
             .then(rst => {
                 if(rst.body.res_code === 200){
                     this.$vux.toast.show({
@@ -187,7 +188,7 @@ export default {
 
         // 删除线路
         del(lineId){
-            this.$http.get(`/guide/line/del?lineId=${lineId}`)
+            this.$http.get(`/guide/line/del?lineId=${lineId}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
             .then((rst) => {
                 if(rst.body.res_code === 200){
                     this.loadOnce = false
@@ -217,7 +218,7 @@ export default {
         edit(item){
             dtCache.clear()
             dtCache.setItem('lineMes',JSON.stringify(item))
-            this.$router.push('/user/create?lineId='+ item.id)
+            this.$router.push('/user/create?lineId='+ item.id + '&price=' + item.price)
         },
 
         // 新建线路
@@ -229,7 +230,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
+                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.lineList = this.lineList.concat(rst.body.data.list)
@@ -297,6 +298,4 @@ export default {
     color: #777
     width: 41px
     text-align: right
-#vux-scroller-4ck1p
-    padding-bottom: 70px
 </style>

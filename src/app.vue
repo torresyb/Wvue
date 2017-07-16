@@ -29,7 +29,7 @@ export default {
 		]),
 
 		loginHandle () {
-		    this.$http.post('/guide/login',{oid:'asfasfqe1134'}).then((rst) => {
+		    this.$http.post('/guide/login',{oid:'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4'}).then((rst) => {
 		    	if(rst && rst.body && rst.body.data && rst.body.data.guide_status === 1){
 					this.setUser({isLogin:true, adminInfo:rst.body.data.data})
 					this.$router.push('/')

@@ -59,7 +59,7 @@ export default {
         },
 
         fetchInfo() {
-            this.$http.post('/guide/login')
+            this.$http.post('/guide/login',{oid:'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4'})
             .then(rst => {
                 if(rst && rst.body){
                     this.info = rst.body.data

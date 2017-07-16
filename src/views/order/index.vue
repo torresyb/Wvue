@@ -101,7 +101,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
+                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=oa6D7w9xOJXGlZ8wVt_RG9AwCDp4`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.orderList = this.orderList.concat(rst.body.data.list)
