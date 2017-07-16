@@ -163,13 +163,18 @@ export default {
             this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}`)
             .then(rst => {
                 if(rst.body.res_code === 200){
-                    this.$vux.toast.show({
-                        text: status = 1 ? '上线成功' : '下线成功',
-                        type: 'text',
-                        onHide () {
-                            this.fetchList()
-                        }
-                    })
+                    this.fetchList()
+                    if(status === 1){
+                        this.$vux.toast.show({
+                            text: '上线成功',
+                            type: 'text'
+                        })
+                    }else if(status === 0){
+                        this.$vux.toast.show({
+                            text: '下线成功',
+                            type: 'text'
+                        })
+                    }
                 }else{
                     this.$vux.toast.show({
                         text: rst.body.msg,
