@@ -188,6 +188,7 @@ export default {
         display: block
         width: 92%
         border-radius: 6px
+        outline: none
     i 
         position: absolute
         top: 13px
