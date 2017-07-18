@@ -2,7 +2,7 @@
     <div id="userMoney" class="userMoney">
         <ul>
             <li class="border-bottom">
-                <span>余额</span>
+                <span>可用余额</span>
                 <i>{{total}}</i>
             </li>
             <li class="border-bottom">
@@ -63,8 +63,8 @@ export default {
         fetchInfo(){
             this.$http.get('/user/account/info')
             .then(rst => {
-                this.total = rst.body && rst.body.data && rst.body.data.total_amount
-                this.deposit = rst.body && rst.body.data && rst.body.data.deposit_amount
+                this.total = rst.body && rst.body.data && rst.body.data.available_amount
+                this.deposit = rst.body && rst.body.data && rst.body.data.frozen_amount
             })
             .catch(err => {
                 this.$vux.toast.show({
@@ -81,9 +81,16 @@ export default {
 
         // 收支明细
         getCash(){
-            if(!amount){
+            if(!this.amount){
                 this.$vux.toast.show({
                     text: '请输入提现金额',
+                    type: 'text'
+                })
+                return
+            }
+            if(this.amount > this.total){
+                this.$vux.toast.show({
+                    text: '已超出提现金额',
                     type: 'text'
                 })
                 return
