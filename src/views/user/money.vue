@@ -79,7 +79,7 @@ export default {
             this.$router.push('/user/detail')
         },
 
-        // 收支明细
+        // 提现
         getCash(){
             if(!this.amount){
                 this.$vux.toast.show({
@@ -97,12 +97,13 @@ export default {
             }
             this.$http.get(`/user/account/getCash?amount=${this.amount}`)
             .then(rst => {
-                if(rst.body && rst.body.res_code === 200){
+                this.$vux.toast.show({
+                    text: rst.body.msg,
+                    type: 'text'
+                })
+                if(rst.body.res_code === 200){
                     this.showPop = false
-                    this.$vux.toast.show({
-                        text: '申请提现成功',
-                        type: 'text'
-                    })
+                    this.fetchInfo()
                 }
             })
             .catch(err => {
