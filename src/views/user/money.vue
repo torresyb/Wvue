@@ -61,7 +61,7 @@ export default {
     methods: {
         // 获取用户信息
         fetchInfo(){
-            this.$http.get('/user/account/info')
+            this.$http.get('/user/account/info?oid=test1234')
             .then(rst => {
                 this.total = rst.body && rst.body.data && rst.body.data.available_amount
                 this.deposit = rst.body && rst.body.data && rst.body.data.frozen_amount
@@ -95,7 +95,7 @@ export default {
                 })
                 return
             }
-            this.$http.get(`/user/account/getCash?amount=${this.amount}`)
+            this.$http.get(`/user/account/getCash?amount=${this.amount}&oid=test1234`)
             .then(rst => {
                 this.$vux.toast.show({
                     text: rst.body.msg,

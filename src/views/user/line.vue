@@ -14,7 +14,7 @@
                     </tab-item>
                 </tab>
             </sticky>
-             <scroller 
+            <scroller 
                 lock-x scrollbar-y 
                 @on-scroll-bottom="onScrollBottom" 
                 ref="scrollerBottom" 
@@ -144,7 +144,6 @@ export default {
 
     methods: {
         itemClickHandle (val){
-            console.log('tab:',val)
             this.status = val
             this.lastPage = false
             this.lineList = []
@@ -164,7 +163,7 @@ export default {
             }else{
                 status = 0
             }
-            this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}`)
+            this.$http.get(`/guide/line/onOrOff?lineId=${lineId}&status=${status}&oid=test1234`)
             .then(rst => {
                 if(rst.body.res_code === 200){
                     this.lineList = []
@@ -200,7 +199,7 @@ export default {
 
         // 删除线路
         del(lineId){
-            this.$http.get(`/guide/line/del?lineId=${lineId}`)
+            this.$http.get(`/guide/line/del?lineId=${lineId}&oid=test1234`)
             .then((rst) => {
                 if(rst.body.res_code === 200){
                     this.lineList = []
@@ -243,7 +242,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
+                this.$http.get(`/guide/line/lines?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=test1234`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.lineList = this.lineList.concat(rst.body.data.list)

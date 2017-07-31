@@ -4,7 +4,7 @@
         <div class="banner"></div>
         
         <group class="border-bottom">
-            <x-input title="线路名称" placeholder-align="right" placeholder="请输入线路名称" v-model.trim="lineName"></x-input>
+            <x-input title="路线名称" placeholder-align="right" placeholder="请输入路线名称" v-model.trim="lineName"></x-input>
             <x-input title="旅游景点" placeholder-align="right" placeholder="请输入旅游景点" v-model.trim="viewName"></x-input>
             <x-input title="接待人数" placeholder-align="right" placeholder="请输入人数" v-model="maxCount" type="number"></x-input>
             <x-input title="行程时长" placeholder-align="right" placeholder="请输入行程时长" v-model="vLength" type="number"></x-input>
@@ -66,17 +66,17 @@ export default {
         return {
             config: vm.config,                               // 配置
             lineData:{},                                     // locastorage
-            lineId: this.$route.query.lineId || '',          // 线路id
+            lineId: this.$route.query.lineId || '',          // 路线id
             price: this.$route.query.price ,                 // 价格
             viewName: '',                                    // 景点名称 
             maxCount: '',                                    // 接待人数
             workDays: '',                                    // 接待的日期
             workTime: '',                                    // 可接待的时间
-            content: '',                                     // 线路内容
+            content: '',                                     // 路线内容
             vLength: '',                                     // 预计浏览时间
             intro: '',                                       // 自我介绍
-            lineTye: '',                                     // 线路类型
-            lineName: '',                                    // 线路名称
+            lineTye: '',                                     // 路线类型
+            lineName: '',                                    // 路线名称
             showDatePop: false,                              // 日期弹框
             weekList: ['一','二','三','四','五','六','日'],
             monthData: [],
@@ -164,7 +164,7 @@ export default {
                 return
             }
             if(!this.lineName){
-                this.toast('请填写线路名称')
+                this.toast('请填写路线名称')
                 return
             }
             if(!this.maxCount){
@@ -172,7 +172,7 @@ export default {
                 return
             }
             if(!this.content){
-                this.toast('请填写线路内容')
+                this.toast('请填写路线内容')
                 return
             }
             if(!this.vLength){
@@ -192,6 +192,7 @@ export default {
                 return
             }
             this.$http.post('/guide/line',{
+                oid: 'test1234',
                 lineId:this.lineId,
                 viewName:this.viewName,
                 maxCount:this.maxCount,
@@ -207,7 +208,7 @@ export default {
                 if(rst.body.res_code === 200){
                     this.$router.push('/user/line')
                     this.$vux.toast.show({
-                        text: '新建线路成功',
+                        text: '新建路线成功',
                         type: 'text'
                     })
                 }

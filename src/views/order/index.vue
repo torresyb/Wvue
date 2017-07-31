@@ -10,18 +10,18 @@
 
             <scroller 
                 lock-x scrollbar-y 
-                @on-scroll-bottom = "onScrollBottom" 
-                ref = "scrollerBottom" 
-                class = "srcollBox"
-                :scroll-bottom-offst = "200"
-                style="padding-bottom:100px;"
+                @on-scroll-bottom="onScrollBottom" 
+                ref="scrollerBottom" 
+                :scroll-bottom-offst="200"
+                height="-102"
             >
                 <div class="wx-box">
                     <div class="wx-item" v-for = '(item, index) in orderList' :key="index">
                         <div class="tab-swiper vux-center">
                             <a :href="'#/order/confirm?orderNum='+item.order_num">
                                 <p class="wx-title">{{item.view_line_content}}</p>
-                                <p class="wx-right wx-green">{{['待确认','已确认'][item.book_status-1]}}</p>
+                                <p class="wx-right wx-green">{{['待确认','游客取消','导游取消','确认超时','待付款','支付超时','已付款','已出行完成','有投诉待确认','已退款','待评价','已评价'][item.book_status-1]}}</p>
+                                <!-- "book_status": 1,//订单状态:1=待导游确认,2=游客取消,3=导游主动取消,4=导游确认超时,5=待游客付款,6=支付超时,7=已付款,8=已出行完成,9=有投诉待确认,10=已退款,11=待评价,12=已评价 -->
                             </a>
                             <a :href="'#/order/confirm?orderNum='+item.order_num" class="weui-media-box weui-media-box_appmsg">
                                 <div class="weui-media-box__hd">
@@ -87,14 +87,21 @@ export default {
           this.$refs.scrollerBottom.reset({top: 0})
         })
     },
+
+    activated () {
+        this.$refs.scroller.reset()
+    },
+    
     methods: {
         itemClickHandle (val){
-            this.status = val +1
-            this.lastPage = false
             this.orderList = []
+            this.status = val +1
             this.pageNo = 1
+            this.lastPage = false
+            this.loadOnce = false
             this.fetchList()
         },
+
         onScrollBottom () {
             this.pageNo += 1
             this.fetchList()
@@ -103,7 +110,7 @@ export default {
         fetchList() {
             if(!this.loadOnce && !this.lastPage){
                 this.loadOnce = true
-                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}`)
+                this.$http.get(`/guide/order/list?pageNo=${this.pageNo}&status=${this.status}&pageSize=${this.pageSize}&oid=test1234`)
                 .then(rst => {
                     if(rst.body && rst.body.data){
                         this.orderList = this.orderList.concat(rst.body.data.list)
@@ -111,14 +118,15 @@ export default {
                         this.imgOrigin = rst.body.prefix
                     }
                     if(rst.body && rst.body.data && rst.body.data.lastPage){
-                        this.$refs.div.innerHTML = '底线已被触碰~'
                         this.lastPage = true
                     }else{
                         this.lastPage = false
                     }
+
                     this.$nextTick(() => {
                         this.$refs.scrollerBottom.reset()
                     })
+
                     this.loadOnce = false
                 }) 
                 .catch(err => {

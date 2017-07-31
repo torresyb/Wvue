@@ -37,7 +37,7 @@ export default {
 
     methods: {
         fetchData(){
-            this.$http.get(`/user/account/log?pageNo=${this.pageNo}`)
+            this.$http.get(`/user/account/log?pageNo=${this.pageNo}&oid=test1234`)
             .then(rst => {
                 if(rst.body && rst.body.data){
                     this.list = this.list.concat(rst.body.data.list)

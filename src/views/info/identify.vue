@@ -112,7 +112,7 @@ export default {
 
             if(!this.isClicked){
                 this.isClicked = true
-                this.$http.get(`/user/code?mobile=${this.tel}`)
+                this.$http.get(`/user/code?mobile=${this.tel}&oid=test1234`)
                 .then(rst => {
                     this.countDown()
                 })
@@ -184,39 +184,41 @@ export default {
 
             formData.append("file", event.target.files[0])
             formData.append("remotePath", '/agent')
-            // formData.append("oid", 'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4')
+            formData.append("oid", 'test1234')
 
             this.$vux.loading.show({
                 text: '头像上传中...'
             })
-            this.$http.post('/upload/uploadFile',formData)
+            if(event.target.files[0]){
+                this.$http.post('/upload/uploadFile',formData)
             .then((rst) => {
-                this.$vux.loading.hide()
-                if(rst.body.res_code === 200){
-                    if(event.srcElement.id === 'bUploadBtn1'){
-                        this.idCardShow1 = rst.body.prefix + rst.body.data.path
-                        this.frontImg = rst.body.data.path
-                    }else if(event.srcElement.id === 'bUploadBtn2'){
-                        this.idCardShow2 = rst.body.prefix + rst.body.data.path
-                        this.backImg = rst.body.data.path
+                    this.$vux.loading.hide()
+                    if(rst.body.res_code === 200){
+                        if(event.srcElement.id === 'bUploadBtn1'){
+                            this.idCardShow1 = rst.body.prefix + rst.body.data.path
+                            this.frontImg = rst.body.data.path
+                        }else if(event.srcElement.id === 'bUploadBtn2'){
+                            this.idCardShow2 = rst.body.prefix + rst.body.data.path
+                            this.backImg = rst.body.data.path
+                        }else{
+                            this.idCardShow3 = rst.body.prefix + rst.body.data.path
+                            this.guideCardImg = rst.body.data.path
+                        }
                     }else{
-                        this.idCardShow3 = rst.body.prefix + rst.body.data.path
-                        this.guideCardImg = rst.body.data.path
+                        this.$vux.toast.show({
+                            text: rst.body.msg,
+                            type: 'text'
+                        })
                     }
-                }else{
+                })
+                .catch(err => {
+                    this.$vux.loading.hide()
                     this.$vux.toast.show({
-                        text: rst.body.msg,
+                        text: err.body.msg,
                         type: 'text'
                     })
-                }
-            })
-            .catch(err => {
-                this.$vux.loading.hide()
-                this.$vux.toast.show({
-                    text: err.body.msg,
-                    type: 'text'
                 })
-            })
+            }
         },
 
         // 审核
@@ -253,7 +255,7 @@ export default {
                 text: '提交中...'
             })
             this.$http.post('/guide/user/toReview',{
-                // oid:'oa6D7w9xOJXGlZ8wVt_RG9AwCDp4',
+                oid:'test1234',
                 cardNum: this.idCard,
                 phone: this.tel,
                 birthday: this.birthday,
